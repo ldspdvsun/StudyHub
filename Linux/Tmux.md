@@ -1,4 +1,4 @@
-# Tmux是什么？
+# Tmux是什么
 
 > Tmux是一个终端复用器（terminal multiplexer），属于常用的开发工具，学会了之后可以大大的提高工作效率。
 
