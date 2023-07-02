@@ -67,7 +67,7 @@ print(r.text)
         "X-Amzn-Trace-Id": "Root=1-64423ad4-62e3a0a13b74d5c23b07d6f8"
       }, 
       "json": null, 
-      "origin": "43.138.79.59", 
+      "origin": "IP", 
       "url": "http://httpbin.org/post"
     }
     
@@ -100,7 +100,7 @@ print(r.text)
         "X-Amzn-Trace-Id": "Root=1-64423ad5-4e7c5503010f62d876719e59"
       }, 
       "json": null, 
-      "origin": "43.138.79.59", 
+      "origin": "IP", 
       "url": "http://httpbin.org/put"
     }
     
@@ -129,7 +129,7 @@ print(r.text)
         "X-Amzn-Trace-Id": "Root=1-64423ad6-73f4452c43463de43ced6971"
       }, 
       "json": null, 
-      "origin": "43.138.79.59", 
+      "origin": "IP", 
       "url": "http://httpbin.org/delete"
     }
     
@@ -321,7 +321,7 @@ print(r.text)
         "X-Amzn-Trace-Id": "Root=1-64423add-1a4f8cf2154d8fef16187d97"
       }, 
       "json": null, 
-      "origin": "43.138.79.59", 
+      "origin": "IP", 
       "url": "http://httpbin.org/post"
     }
     
@@ -357,7 +357,7 @@ print(r.text)
         "X-Amzn-Trace-Id": "Root=1-64423ade-2edcb50151686d60383aee25"
       }, 
       "json": null, 
-      "origin": "43.138.79.59", 
+      "origin": "IP", 
       "url": "http://httpbin.org/post"
     }
     
@@ -390,7 +390,7 @@ print(r.text)
       "json": {
         "some": "data"
       }, 
-      "origin": "43.138.79.59", 
+      "origin": "IP", 
       "url": "http://httpbin.org/post"
     }
     
@@ -426,7 +426,7 @@ print(r.text)
         "X-Amzn-Trace-Id": "Root=1-64424155-76876fe57ece30d3268eb941"
       }, 
       "json": null, 
-      "origin": "43.138.79.59", 
+      "origin": "IP", 
       "url": "http://httpbin.org/post"
     }
     
@@ -460,7 +460,7 @@ print(r.text)
         "X-Amzn-Trace-Id": "Root=1-64424173-1e9f682764e546625eaa70c2"
       }, 
       "json": null, 
-      "origin": "43.138.79.59", 
+      "origin": "IP", 
       "url": "http://httpbin.org/post"
     }
     
@@ -494,7 +494,7 @@ print(r.text)
         "X-Amzn-Trace-Id": "Root=1-64424187-613d9ce73de58cf2761968f0"
       }, 
       "json": null, 
-      "origin": "43.138.79.59", 
+      "origin": "IP", 
       "url": "http://httpbin.org/post"
     }
     

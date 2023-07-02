@@ -150,14 +150,14 @@ root@VM-24-11-ubuntu:~#
 ```yaml
 server {
     listen 80;
-    server_name 43.138.79.59;
+    server_name IP;
     return 301 http://$host$request_uri;
     # return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name 43.138.79.59;
+    server_name IP;
 
     ssl_certificate /etc/ssl/certs/certificate_ca_bundle.crt;
     ssl_certificate_key /etc/ssl/private/private.key;
