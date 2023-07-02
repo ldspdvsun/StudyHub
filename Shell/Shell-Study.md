@@ -24,14 +24,14 @@ shell是一个程序，用C语言编写，用户和linux内核沟通的桥梁。
 •	user：用户接口，对接用户（中国人说的汉语交给翻译）
 
 ```sh
-[root@ldspdvs sun]# echo "hello world"
+[root@root sun]# echo "hello world"
 hello world
 # sed 's/world/亲/'
-[root@ldspdvs sun]# echo "hello world" | sed 's/world/亲/'
+[root@root sun]# echo "hello world" | sed 's/world/亲/'
 hello 亲
-[root@ldspdvs sun]# echo $USER
+[root@root sun]# echo $USER
 sun
-[root@ldspdvs sun]# 
+[root@root sun]# 
 ```
 ## shell功能
 

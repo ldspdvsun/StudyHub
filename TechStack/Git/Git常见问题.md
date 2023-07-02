@@ -3,7 +3,7 @@
 > git push -u origin main
 remote: Support for password authentication was removed on August 13, 2021.
 remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
-fatal: Authentication failed for 'https://github.com/ldspdvsun/StudyHub.git/'
+fatal: Authentication failed for 'https://github.com/root/StudyHub.git/'
 
 这个问题是由于 GitHub 在2021年8月13日移除了对密码身份验证的支持所导致的。解决这个问题的方法是使用基于令牌（Token）的身份验证。
 
@@ -35,7 +35,7 @@ git config --global user.email "your-email@example.com"
 4. 在终端中运行以下命令，将您的仓库 URL 中的用户名部分替换为您的 GitHub 用户名，并使用生成的令牌作为密码：
 
 ```plaintext
-git remote set-url origin https://YourGitHubUsername:YourToken@github.com/ldspdvsun/StudyHub.git
+git remote set-url origin https://YourGitHubUsername:YourToken@github.com/root/StudyHub.git
 ```
 
 确保将 "YourGitHubUsername" 替换为您的 GitHub 用户名，并将 "YourToken" 替换为您刚刚生成的令牌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。

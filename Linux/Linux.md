@@ -783,10 +783,10 @@ Linux 链接分两种，一种被称为硬链接（Hard Link），另一种被�
 **测试：**
 
 ```sh
-[root@ldspdvs Documents]# touch f1 # 创建一个测试文件f1
-[root@ldspdvs Documents]# ln f1 f2     # 创建f1的一个硬连接文件f2
-[root@ldspdvs Documents]# ln -s f1 f3   # 创建f1的一个符号连接文件f3
-[root@ldspdvs Documents]# ll
+[root@root Documents]# touch f1 # 创建一个测试文件f1
+[root@root Documents]# ln f1 f2     # 创建f1的一个硬连接文件f2
+[root@root Documents]# ln -s f1 f3   # 创建f1的一个符号连接文件f3
+[root@root Documents]# ll
 总用量 0
 -rw-r--r--. 2 root root  0 3月  31 11:09 f1
 -rw-r--r--. 2 root root  0 3月  31 11:09 f2
@@ -794,7 +794,7 @@ lrwxrwxrwx. 1 root root  2 3月  31 11:10 f3 -> f1
 drwxrwxr-x. 3 sun  sun  52 3月  31 10:38 t
 drwxr-xr-x. 2 root root  6 3月  31 10:31 t2
 drwxrwxr-x. 3 sun  sun  38 3月  31 10:24 test1
-[root@ldspdvs Documents]# ls -li # -i参数显示文件的inode节点信息
+[root@root Documents]# ls -li # -i参数显示文件的inode节点信息
 总用量 0
 34523892 -rw-r--r--. 2 root root  0 3月  31 11:09 f1
 34523892 -rw-r--r--. 2 root root  0 3月  31 11:09 f2
@@ -808,46 +808,46 @@ drwxrwxr-x. 3 sun  sun  38 3月  31 10:24 test1
 
 ```sh
 # echo 字符串输出 I am f1 file 输出到 f1文件
-[root@ldspdvs Documents]# echo "I am f1 file" >> f1
-[root@ldspdvs Documents]# cat f1
+[root@root Documents]# echo "I am f1 file" >> f1
+[root@root Documents]# cat f1
 I am f1 file
-[root@ldspdvs Documents]# cat f2
+[root@root Documents]# cat f2
 I am f1 file
-[root@ldspdvs Documents]# cat f3
+[root@root Documents]# cat f3
 I am f1 file
-[root@ldspdvs Documents]# echo "I am f1 file 2" >> f1
-[root@ldspdvs Documents]# cat f1
-I am f1 file
-I am f1 file 2
-[root@ldspdvs Documents]# cat f2
+[root@root Documents]# echo "I am f1 file 2" >> f1
+[root@root Documents]# cat f1
 I am f1 file
 I am f1 file 2
-[root@ldspdvs Documents]# cat f3
+[root@root Documents]# cat f2
 I am f1 file
 I am f1 file 2
-[root@ldspdvs Documents]# echo "f2 file" >> f2
-[root@ldspdvs Documents]# cat f1
+[root@root Documents]# cat f3
 I am f1 file
 I am f1 file 2
-f2 file
-[root@ldspdvs Documents]# cat f2
+[root@root Documents]# echo "f2 file" >> f2
+[root@root Documents]# cat f1
 I am f1 file
 I am f1 file 2
 f2 file
-[root@ldspdvs Documents]# cat f3
+[root@root Documents]# cat f2
 I am f1 file
 I am f1 file 2
 f2 file
-[root@ldspdvs Documents]# rm -f f1
-[root@ldspdvs Documents]# cat f1
+[root@root Documents]# cat f3
+I am f1 file
+I am f1 file 2
+f2 file
+[root@root Documents]# rm -f f1
+[root@root Documents]# cat f1
 cat: f1: 没有那个文件或目录
-[root@ldspdvs Documents]# cat f2
+[root@root Documents]# cat f2
 I am f1 file
 I am f1 file 2
 f2 file
-[root@ldspdvs Documents]# cat f3
+[root@root Documents]# cat f3
 cat: f3: 没有那个文件或目录
-[root@ldspdvs Documents]# 
+[root@root Documents]# 
 
 ```
 
@@ -1837,18 +1837,18 @@ pstree -pu
 	-p 显示父进程ID
 	-u 显示用户组
 
-[root@ldspdvs Documents]# ps -a
+[root@root Documents]# ps -a
    PID TTY          TIME CMD
   3989 pts/0    00:00:00 su
   3995 pts/0    00:00:01 bash
  11934 pts/0    00:00:00 ps
-[root@ldspdvs Documents]# ps -u
+[root@root Documents]# ps -u
 USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root       1289  0.2  3.7 372896 69460 tty1     Ssl+ 09:52   0:49 /usr/bin/X :0 
 root       3989  0.0  0.1 194340  2880 pts/0    S    10:19   0:00 su root
 root       3995  0.0  0.1 117156  3676 pts/0    S    10:19   0:01 bash
 root      11946  0.0  0.1 155448  1876 pts/0    R+   16:10   0:00 ps -u
-[root@ldspdvs Documents]# ps -x
+[root@root Documents]# ps -x
    PID TTY      STAT   TIME COMMAND
      1 ?        Ss     0:10 /usr/lib/systemd/systemd --switched-root --system --
      2 ?        S      0:00 [kthreadd]
@@ -1856,34 +1856,34 @@ root      11946  0.0  0.1 155448  1876 pts/0    R+   16:10   0:00 ps -u
      6 ?        S      0:00 [ksoftirqd/0]
      7 ?        S      0:00 [migration/0]
      ***
-[root@ldspdvs Documents]# ps -aux
+[root@root Documents]# ps -aux
 USER        PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
 root      11457  0.0  0.0      0     0 ?        S    16:02   0:00 [kworker/1:0]
 root      11829  0.0  0.0      0     0 ?        S    16:08   0:00 [kworker/2:0]
 root      11907  0.0  0.0      0     0 ?        S    16:10   0:00 [kworker/u256:
 root      11929  0.0  0.0 108052   356 ?        S    16:10   0:00 sleep 60
 root      11999  0.0  0.1 157532  1912 pts/0    R+   16:11   0:00 ps -aux
-[root@ldspdvs Documents]# 
+[root@root Documents]# 
 
 # | 在linux中叫做管道，grep查找文件中符合条件的字符串
 ps -aux | grep 进程名字
-[root@ldspdvs Documents]# ps -a
+[root@root Documents]# ps -a
    PID TTY          TIME CMD
   3989 pts/0    00:00:00 su
   3995 pts/0    00:00:01 bash
  12526 pts/0    00:00:00 ps
-[root@ldspdvs Documents]# ps -a |grep 3995
+[root@root Documents]# ps -a |grep 3995
   3995 pts/0    00:00:01 bash
-[root@ldspdvs Documents]# ps -a |grep su
+[root@root Documents]# ps -a |grep su
   3989 pts/0    00:00:00 su
-[root@ldspdvs Documents]# ps -a |grep pts/0
+[root@root Documents]# ps -a |grep pts/0
   3989 pts/0    00:00:00 su
   3995 pts/0    00:00:01 bash
  12601 pts/0    00:00:00 ps
  12602 pts/0    00:00:00 grep
-[root@ldspdvs Documents]# ps -a |grep 00:00:01
+[root@root Documents]# ps -a |grep 00:00:01
   3995 pts/0    00:00:01 bash
-[root@ldspdvs Documents]# 
+[root@root Documents]# 
 ```
 
 ## 杀掉进程
@@ -1977,7 +1977,7 @@ apache-tomcat-9.0.22.tar.gz
 ```sh
 # 查看firewall服务状态
 systemctl status firewalld
-[root@ldspdvs bin]# systemctl status firewalld
+[root@root bin]# systemctl status firewalld
 ● firewalld.service - firewalld - dynamic firewall daemon
    Loaded: loaded (/usr/lib/systemd/system/firewalld.service; enabled; vendor preset: enabled)
    Active: active (running) since 四 2022-03-31 09:51:52 CST; 14h ago
@@ -1987,11 +1987,11 @@ systemctl status firewalld
    CGroup: /system.slice/firewalld.service
            └─774 /usr/bin/python2 -Es /usr/sbin/firewalld --nofork --nopid
 
-3月 31 09:51:47 ldspdvs systemd[1]: Starting firewalld - dynamic firewall .....
-3月 31 09:51:52 ldspdvs systemd[1]: Started firewalld - dynamic firewall d...n.
-3月 31 09:51:53 ldspdvs firewalld[774]: WARNING: AllowZoneDrifting is enabl....
+3月 31 09:51:47 root systemd[1]: Starting firewalld - dynamic firewall .....
+3月 31 09:51:52 root systemd[1]: Started firewalld - dynamic firewall d...n.
+3月 31 09:51:53 root firewalld[774]: WARNING: AllowZoneDrifting is enabl....
 Hint: Some lines were ellipsized, use -l to show in full.
-[root@ldspdvs bin]# 
+[root@root bin]# 
 
 
 # 开启、重启、关闭、firewalld.service服务
