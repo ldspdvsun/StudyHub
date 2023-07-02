@@ -2091,7 +2091,7 @@ ceshi  docker-test-volume  ldspdvs  mysql  sun.java  test.java
 [root@centos7 dockerfile]# vim mydockerfile
 [root@centos7 dockerfile]# cat mydockerfile 
 FROM centos
-MAINTAINER sun<skywalker0@qq.com>
+MAINTAINER sun<EMAIL@qq.com>
 ENV MYPATH /usr/local
 
 WORKDIR $MYPATH
@@ -2108,7 +2108,7 @@ CMD /bin/bash
 Sending build context to Docker daemon  2.048kB
 Step 1/10 : FROM centos
  ---> 300e315adb2f
-Step 2/10 : MAINTAINER sun<skywalker0@qq.com>
+Step 2/10 : MAINTAINER sun<EMAIL@qq.com>
  ---> Running in 739b57131710
 Removing intermediate container 739b57131710
  ---> 29ad5f97ca5b
@@ -2305,7 +2305,7 @@ cef3ff258ffa   19 minutes ago   /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "echo… 
 1255cabbbf83   19 minutes ago   /bin/sh -c yum -y install vim                   60.7MB  
 a546b4765636   19 minutes ago   /bin/sh -c #(nop) WORKDIR /usr/local            0B      
 ddf6af18fc09   19 minutes ago   /bin/sh -c #(nop)  ENV MYPATH=/usr/local        0B      
-29ad5f97ca5b   19 minutes ago   /bin/sh -c #(nop)  MAINTAINER sun<skywalker0…   0B      
+29ad5f97ca5b   19 minutes ago   /bin/sh -c #(nop)  MAINTAINER sun<EMAIL…   0B      
 300e315adb2f   6 months ago     /bin/sh -c #(nop)  CMD ["/bin/bash"]            0B      
 <missing>      6 months ago     /bin/sh -c #(nop)  LABEL org.label-schema.sc…   0B      
 <missing>      6 months ago     /bin/sh -c #(nop) ADD file:bd7a2aed6ede423b7…   209MB   
@@ -2458,7 +2458,7 @@ drwxr-xr-x.  20 root root 262 Dec  4  2020 var
 [root@centos7 tomcat]# cat Dockerfile 
 FROM centos
 
-MAINTAINER sun<skywalker0@qq.com>
+MAINTAINER sun<EMAIL@qq.com>
 
 COPY readme.txt /usr/local/readme.txt
 
@@ -2490,7 +2490,7 @@ CMD /usr/local/apache-tomcat-9.0.48/bin/startup.sh && tail -F /usr/local/apache-
 Sending build context to Docker daemon  156.4MB
 Step 1/15 : FROM centos
  ---> 300e315adb2f
-Step 2/15 : MAINTAINER sun<skywalker0@qq.com>
+Step 2/15 : MAINTAINER sun<EMAIL@qq.com>
  ---> Using cache
  ---> 29ad5f97ca5b
 Step 3/15 : COPY readme.txt /usr/local/readme.txt

@@ -265,8 +265,8 @@ global:
   resolve_timeout: 5m
   # 配置邮件发送信息
   smtp_smarthost: 'smtp.qq.com:465'
-  smtp_from: 'skywalker0@qq.com'
-  smtp_auth_username: 'skywalker0@qq.com'
+  smtp_from: 'EMAIL@qq.com'
+  smtp_auth_username: 'EMAIL@qq.com'
   smtp_auth_password: 'aaftwxutipqiecbh'
   smtp_require_tls: false
   ######################告警抑制内容#############################
@@ -309,9 +309,9 @@ receivers:
   email_configs:
   - to: 'EMAIL@126.com'
     send_resolved: true
-- name: 'critical_alerts'    #严重告警级别发送给skywalker0@qq.com
+- name: 'critical_alerts'    #严重告警级别发送给EMAIL@qq.com
   email_configs:
-  - to: 'skywalker0@qq.com'
+  - to: 'EMAIL@qq.com'
     send_resolved: true
 - name: 'normal_alerts'    #普通告警级别发送给EMAIL@126.com
   email_configs:
@@ -748,8 +748,8 @@ mkdir: 已创建目录 '/etc/alertmanager'
 global:
   resolve_timeout: 5m
   smtp_smarthost: 'smtp.qq.com:465'
-  smtp_from: 'skywalker0@qq.com'
-  smtp_auth_username: 'skywalker0@qq.com'
+  smtp_from: 'EMAIL@qq.com'
+  smtp_auth_username: 'EMAIL@qq.com'
   smtp_auth_password: 'xikolfiokklfebaa'
   smtp_require_tls: false
 route:
