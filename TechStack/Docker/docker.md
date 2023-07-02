@@ -14,15 +14,15 @@
 
 ```shell
 # 系统内核
-[ldspdvs@cetnos7 ~]$ uname -r
+[name@cetnos7 ~]$ uname -r
 3.10.0-1160.31.1.el7.x86_64
-[ldspdvs@cetnos7 ~]$ uname -r
+[name@cetnos7 ~]$ uname -r
 3.10.0-1160.31.1.el7.x86_64
 ```
 
 ```shell
 # 系统版本
-[root@cetnos7 ldspdvs]# cat /etc/os-release
+[root@cetnos7 name]# cat /etc/os-release
 NAME="CentOS Linux"
 VERSION="7 (Core)"
 ID="centos"
@@ -90,7 +90,7 @@ docker run hello-world
 
 ```shell
 # 8、查看镜像
-[root@cetnos7 ldspdvs]# docker images
+[root@cetnos7 name]# docker images
 REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
 hello-world   latest    d1165f221234   3 months ago   13.3kB
 ```
@@ -751,7 +751,7 @@ docker cp 容器ID:容器内路径 目的地路径
 # 查看主机现有文件
 [root@centos7 home]# ll
 总用量 4
-drwx------. 17 ldspdvs ldspdvs 4096 6月  18 09:30 ldspdvs
+drwx------. 17 name name 4096 6月  18 09:30 name
 -rw-r--r--.  1 root    root       0 6月  18 10:51 sun.java
 
 # 进入容器
@@ -778,7 +778,7 @@ a01aa4045648   centos    "/bin/sh -c 'while t…"   25 hours ago    Exited (255)
 # 从容器内复制文件到主机上
 [root@centos7 home]# docker cp 6d8882478a04:/home/test.java /home
 [root@centos7 home]# ls
-ldspdvs  sun.java  test.java
+name  sun.java  test.java
 [root@centos7 home]#
 ```
 
@@ -1291,7 +1291,7 @@ docker run -it -v 主机目录:容器内目录
 
 [root@centos7 ~]# cd /home
 [root@centos7 home]# ls
-ldspdvs  sun.java  test.java
+name  sun.java  test.java
 
 # 使用命令挂载
 [root@centos7 home]# docker run -it -v /home/ceshi:/home centos /bin/bash
@@ -1299,7 +1299,7 @@ ldspdvs  sun.java  test.java
 [root@d7bd1e6e693f home]# ls
 [root@d7bd1e6e693f home]# [root@centos7 home]#
 [root@centos7 home]# ls
-ceshi  ldspdvs  sun.java  test.java
+ceshi  name  sun.java  test.java
 [root@centos7 home]# docker ps
 CONTAINER ID   IMAGE     COMMAND             CREATED         STATUS         PORTS                                       NAMES
 d7bd1e6e693f   centos    "/bin/bash"         3 minutes ago   Up 3 minutes                                               flamboyant_gates
@@ -2084,7 +2084,7 @@ Dockerhub上多数镜像都是从这个基础镜像过来的FROM scratch
 # 编写dockerfile文件
 [root@centos7 ~]# cd /home
 [root@centos7 home]# ls
-ceshi  docker-test-volume  ldspdvs  mysql  sun.java  test.java
+ceshi  docker-test-volume  name  mysql  sun.java  test.java
 [root@centos7 home]# mkdir dockerfile
 [root@centos7 home]# cd dockerfile/
 [root@centos7 dockerfile]# ls
@@ -2625,7 +2625,7 @@ elasticsearch            7.6.2     f29a1ee41030   15 months ago        791MB
 3. 启动镜像
 
 ```shell
-[root@centos7 tomcat]# docker run -d -p 9090:8080 --name suntomcat1 -v /home/ldspdvs/build/tomcat/testwebapps:/usr/local/apache-tomcat-9.0.48/webapps/test -v /home/ldspdvs/build/tomcat/tomcatlogs:/usr/local/apache-tomcat-9.0.48/logs diytomcat
+[root@centos7 tomcat]# docker run -d -p 9090:8080 --name suntomcat1 -v /home/name/build/tomcat/testwebapps:/usr/local/apache-tomcat-9.0.48/webapps/test -v /home/name/build/tomcat/tomcatlogs:/usr/local/apache-tomcat-9.0.48/logs diytomcat
 1172d133897813cbf1731037a3b0b52353e7f83b0d6a2adac7ad265c0b1d87fa
 [root@centos7 tomcat]# docker exec -it 1172d133897813cbf17 /bin/bash
 [root@1172d1338978 local]# ll
@@ -2690,7 +2690,7 @@ Options:
       --password-stdin    Take the password from stdin
   -u, --username string   Username
  # 登录账号 密码 S05141123l
- [root@centos7 home]# docker login -u ldspdvs
+ [root@centos7 home]# docker login -u name
 Password: 
 WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
 Configure a credential helper to remove this warning. See
@@ -2724,9 +2724,9 @@ elasticsearch            7.6.2     f29a1ee41030   15 months ago   791MB
 [root@centos7 home]# 
 
 # push到dockerhub
-[root@centos7 home]# docker tag diytomcat ldspdvs/tomcat-diy
-[root@centos7 home]# docker push ldspdvs/tomcat-diy:latest
-The push refers to repository [docker.io/ldspdvs/tomcat-diy]
+[root@centos7 home]# docker tag diytomcat name/tomcat-diy
+[root@centos7 home]# docker push name/tomcat-diy:latest
+The push refers to repository [docker.io/name/tomcat-diy]
 f3da40fad94f: Pushed 
 002600359583: Pushed 
 792c4cae176c: Pushed 
