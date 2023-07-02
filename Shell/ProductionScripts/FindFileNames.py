@@ -18,7 +18,7 @@ def findAllFile(base):
 
 
 def findAllNames():
-    base = 'D:\Projects\lx_file\云平台测试能力建设群_规程备份资料\\20221017_20221021\睢单单20221021新增操作规程\新增操作规程'
+    base = 'D:\PATHS'
     count = 0
     for i in findAllFile(base):
         # 获取文件名称中最后一个反斜线的位置
