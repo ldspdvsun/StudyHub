@@ -71,10 +71,10 @@ Server: Docker Engine - Community
   Experimental:     false
  containerd:
   Version:          1.4.4
-  GitCommit:        05f951a3781f4f2c1911b05e61c160e9c30eaa8e
+  GitCommit:        05f951a3781f4f2c1911b05e61c143e9c30eaa8e
  runc:
   Version:          1.0.0-rc93
-  GitCommit:        12644e614e25b05da6fd08a38ffa0cfe1903fdec
+  GitCommit:        12644e614e25b05da6fd34a38ffa0cfe1903fdec
  docker-init:
   Version:          0.19.0
   GitCommit:        de40ad0
@@ -107,7 +107,7 @@ docker run -d \
  --privileged \
  --restart=always \
  --name vscode-server \
- -p 18778:8000 \
+ -p Port2:8000 \
  -e PASSWORD=code-server \
  -e SUDO_PASSWORD=root \
  -e VSCODE_KEYRING_PASS="vscode" \
@@ -151,8 +151,11 @@ root@VM-24-11-ubuntu:~#
 server {
     listen 80;
     server_name IP;
-    return 301 http://$host$request_uri;
-    # return 301 https://$host$request_uri;
+    location / {
+        proxy_pass http://127.0.0.1:Port1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
 }
 
 server {
@@ -163,8 +166,7 @@ server {
     ssl_certificate_key /etc/ssl/private/private.key;
 
     location / {
-        proxy_pass http://127.0.0.1:18778;
-        # proxy_pass http://127.0.0.1:8443;
+        proxy_pass http://127.0.0.1:Port2;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -235,7 +237,7 @@ ubuntu@ip-172-31-38-101: cd .well-known/pki-validation
 ubuntu@ip-172-31-38-101: pwd
 /var/www/html/.well-known/pki-validation
 ubuntu@ip-172-31-38-101: ls -a
-.  ..  2F451152F65DFD149BDF7F23F4A68033.txt
+.  ..  2F451152F65DFD149BDF7F23F4AJOL33.txt
 
 ```
 
