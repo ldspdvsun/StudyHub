@@ -1217,9 +1217,51 @@ docker start 507566f7086e
 
 7.修改Portainer登录密码
 
+### Gitlab
 
+#### docker部署
 
+部署
+```sh
+docker run -itd \
+-p 19980:80 \
+-p 19922:22 \
+-u root \
+-v /data/docker/gitlab/data/log:/var/log/gitlab \
+-v /data/docker/gitlab/data/opt:/var/opt/gitlab \
+-v /data/docker/gitlab/data/etc:/etc/gitlab \
+--restart=unless-stopped \
+--name=gitlab \
+gitlab/gitlab-ce
+```
 
+创建网络
+
+```sh
+docker network create custom_network --subnet=172.20.0.0/16
+```
+
+指定网络部署
+
+```sh
+docker run -itd \
+-p 19980:80 \
+-p 19922:22 \
+--network custom_network \
+--ip 172.20.0.100 \  # 请确保这个 IP 地址在你的网络中没有冲突
+-u root \
+-v /data/docker/gitlab/data/log:/var/log/gitlab \
+-v /data/docker/gitlab/data/opt:/var/opt/gitlab \
+-v /data/docker/gitlab/data/etc:/etc/gitlab \
+--restart=unless-stopped \  # 推荐使用 unless-stopped 替代 always
+--name=gitlab \
+gitlab/gitlab-ce
+```
+
+查看root初始密码
+```sh
+docker exec -it gitlab grep "Password": /etc/gitlab/initial_root_password
+```
 
 ## Docker镜像
 
