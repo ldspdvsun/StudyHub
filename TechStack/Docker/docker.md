@@ -1247,8 +1247,7 @@ docker network create custom_network --subnet=172.20.0.0/16
 docker run -itd \
 -p 19980:80 \
 -p 19922:22 \
---network custom_network \
---ip 172.20.0.100 \  # 请确保这个 IP 地址在你的网络中没有冲突
+--network custom_network --ip 172.20.0.100 \  # 请确保这个 IP 地址在你的网络中没有冲突
 -u root \
 -v /data/docker/gitlab/data/log:/var/log/gitlab \
 -v /data/docker/gitlab/data/opt:/var/opt/gitlab \
