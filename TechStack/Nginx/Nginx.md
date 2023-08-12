@@ -7,6 +7,7 @@
 |3|为公网IP申请ssl证书| 完成| 目前支持公网IP的ssl证书只找到zerossl|
 |4|部署nginx配置ssl|完成| zerossl申请时，需要先通过访问公网IP验证是否加载提供的txt文件，<br />暂时未完全掌握|
 |5|为docker部署的容器成功运行后的端口开启反向代理|完成||
+|6|为端口加入认证服务|完成||
 
 
 # 基本需求软件及版本分析
@@ -244,3 +245,46 @@ ubuntu@ip-172-31-38-101: ls -a
 3. 用你的浏览器打开 IP，保证可以访问到验证文件。
 
 > https://www.51cto.com/article/708255.html
+
+## 为端口加入认证服务
+
+> 服务器对外提供的端口服务中如果没有权限验证机制可通过nginx的用户名密码认证来替代
+
+1. 安装工具 apache2-utils
+
+```sh
+root@VM-24-11-ubuntu:~# sudo apt update
+root@VM-24-11-ubuntu:~# sudo apt install apache2-utils
+```
+
+2. 生成配置文件
+
+```sh
+# 1.交互方式输入密码
+root@VM-24-11-ubuntu:~# sudo htpasswd -c /etc/nginx/.htpasswd username
+# 输入要设置的密码
+
+# 2.直接设置密码
+root@VM-24-11-ubuntu:~# sudo htpasswd -c /etc/nginx/.htpasswd username password
+```
+
+3. 修改nginx配置文件
+```sh
+server {
+     listen 80;
+     server_name IP;
+     location / {
+         auth_basic "Restricted Access";
+         auth_basic_user_file /etc/nginx/.htpasswd;
+         add_header Cache-Control "no-cache, private";
+         proxy_pass http://127.0.0.1:PORT; # 转发请求到容器的端口
+         proxy_set_header Host $host;
+         proxy_set_header X-Real-IP $remote_addr;
+     }
+ }
+```
+
+4. 重启nginx
+```sh
+root@VM-24-11-ubuntu:~# sudo systemctl restart nginx
+```
