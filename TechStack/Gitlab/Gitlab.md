@@ -60,16 +60,7 @@ sudo docker run -d --name gitlab-runner --restart always -v /data/docker/gitlab-
 #### 注册
 
 ```sh
-sudo docker run --rm -v /data/docker/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner \
---non-interactive \
---executor "docker"
---docker-image alpine:latest \
---url "Gitlab局域网IP" \
---registration-token "Gitlab管理员界面获取token" \
---tag-list "test-cicd,docker-cicd" \
---run-untagged="true" \
---locked="false" \
---access-level="not_protected"
+docker run --rm -v /data/docker/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register --non-interactive --executor "docker" --docker-image alpine:latest --url "http://192.168.2.136:19980/" --registration-token "npVkW9uCZiLbjXzzNJVN" --description "first-register-runner" --tag-list "test-cicd,docker-cicd" --run-untagged="true" --locked="false" --access-level="not_protected"
 ```
 
 ### pipeline
