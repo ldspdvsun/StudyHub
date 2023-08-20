@@ -66,59 +66,55 @@ from helpers.helper_module import some_function
 
 ### Python logging 文件
 ```py
+import sys
 import logging
-import os, sys
+import os
+
 from logging.handlers import RotatingFileHandler
 
-path = os.path.dirname(os.path.dirname(__file__))
-sys.path.append(path)
+sys.path.append("./")
 
 
-class LoggerUtil:
-    def __init__(self):
-        self.logger = logging.getLogger(__name__)
-        self.root_path = os.path.dirname(os.path.abspath(__file__))
-        self.log_dir_path = os.path.join(self.root_path, "logs")
-        self.setup_logger()
+# 绑定句柄到logger对象
+logger = logging.getLogger(__name__)
 
-    def setup_logger(self):
-        if not os.path.isdir(self.log_dir_path):
-            os.mkdir(self.log_dir_path)
+# 获取当前工具文件所在的路径
+root_path = os.path.dirname(os.path.abspath(__file__))
 
-        file_log_handler = RotatingFileHandler(
-            os.path.join(self.log_dir_path, "log.log"),
-            maxBytes=1024 * 1024,
-            backupCount=10,
-            encoding="utf-8",
-        )
+# 拼接当前要输出的日志的路径
+log_dir_path = os.sep.join([root_path, f"/logs"])
+if not os.path.isdir(log_dir_path):
+    os.mkdir(log_dir_path)
 
-        formatter = logging.Formatter(
-            "[%(asctime)s] [%(levelname)s] [%(filename)s]-[line: %(lineno)d] [%(message)s]",
-            "%Y-%m-%d %H:%M:%S",
-        )
+# 创建日志记录器，指明日志保存路径，每个日志的大小，保存的上限
+file_log_handler = RotatingFileHandler(
+    os.sep.join([log_dir_path, "log.log"]),
+    maxBytes=1024 * 1024,
+    backupCount=10,
+    encoding="utf-8",
+)
 
-        stream_handler = logging.StreamHandler()
-        file_log_handler.setFormatter(formatter)
-        stream_handler.setFormatter(formatter)
+# 设置日志的格式
+data_string = "%Y-%m-%d %H:%M:%S"
+formatter = logging.Formatter(
+    "[%(asctime)s] [%(levelname)s] [%(filename)s]-[Line: %(lineno)d]-[Func: %(funcName)s] [%(message)s]",
+    data_string,
+)
 
-        self.logger.addHandler(stream_handler)
-        self.logger.addHandler(file_log_handler)
-        self.logger.setLevel(level=logging.INFO)
+# 日志输出到控制台的句柄
+stream_handler = logging.StreamHandler()
 
-    def debug(self, message):
-        self.logger.debug(message)
+# 将日志记录器指定日志的格式
+file_log_handler.setFormatter(formatter)
+stream_handler.setFormatter(formatter)
 
-    def info(self, message):
-        self.logger.info(message)
+# 为全局的日志工具对象添加日志记录器
+# 绑定句柄到logger对象
+logger.addHandler(stream_handler)
+logger.addHandler(file_log_handler)
 
-    def warning(self, message):
-        self.logger.warning(message)
-
-    def error(self, message):
-        self.logger.error(message)
-
-    def critical(self, message):
-        self.logger.critical(message)
+# 设置日志输出级别
+logger.setLevel(level=logging.INFO)
 
 ```
 ### 目录结构
