@@ -148,14 +148,13 @@ os.execl(python_executable, python_executable, *sys.argv)
 ### 使用
 
 ```py
-from utils.log_util import LoggerUtil
+from utils.log_util import logger
 
-logger_util = LoggerUtil()
-logger_util.info("!! This is an info message.testing")
-logger_util.error("@ This is an error message.")
+logger.info("!! This is an info message.testing")
+logger.error("@ This is an error message.")
 
-# [2023-08-20 18:23:40] [INFO] [log_util.py]-[line: 48] [!! This is an info message.testing]
-# [2023-08-20 18:23:40] [ERROR] [log_util.py]-[line: 54] [@ This is an error message.]
+# [2023-08-20 22:05:16] [INFO] [test_log_util.py]-[Line: 20]-[Func: <module>] [!! This is an info message.testing]
+# [2023-08-20 22:05:16] [ERROR] [test_log_util.py]-[Line: 21]-[Func: <module>] [@ This is an error message.]
 ```
 
 ## 如何禁止不必要的输出
