@@ -60,8 +60,107 @@ from helpers.helper_module import some_function
 
 需要注意的是，如果多个项目之间存在相互依赖的情况，最好使用包管理工具（如 pipenv 或者 poetry）来管理项目依赖，而不是手动添加模块搜索路径。
 
+## VsCode引入全局自定义函数
 
-## code-runner使用
+> 以自定义的Python logging为例，在 site-packages 创建一个名为 site-packages.pth 的文件。在 site-packages.pth 文件中，添加一行，指向您希望在模块搜索路径中添加的目录。例如，如果您的文件根目录是 /root/code/vscode-server/Personal
+
+### Python logging 文件
+```py
+import logging
+import os, sys
+from logging.handlers import RotatingFileHandler
+
+path = os.path.dirname(os.path.dirname(__file__))
+sys.path.append(path)
+
+
+class LoggerUtil:
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+        self.root_path = os.path.dirname(os.path.abspath(__file__))
+        self.log_dir_path = os.path.join(self.root_path, "logs")
+        self.setup_logger()
+
+    def setup_logger(self):
+        if not os.path.isdir(self.log_dir_path):
+            os.mkdir(self.log_dir_path)
+
+        file_log_handler = RotatingFileHandler(
+            os.path.join(self.log_dir_path, "log.log"),
+            maxBytes=1024 * 1024,
+            backupCount=10,
+            encoding="utf-8",
+        )
+
+        formatter = logging.Formatter(
+            "[%(asctime)s] [%(levelname)s] [%(filename)s]-[line: %(lineno)d] [%(message)s]",
+            "%Y-%m-%d %H:%M:%S",
+        )
+
+        stream_handler = logging.StreamHandler()
+        file_log_handler.setFormatter(formatter)
+        stream_handler.setFormatter(formatter)
+
+        self.logger.addHandler(stream_handler)
+        self.logger.addHandler(file_log_handler)
+        self.logger.setLevel(level=logging.INFO)
+
+    def debug(self, message):
+        self.logger.debug(message)
+
+    def info(self, message):
+        self.logger.info(message)
+
+    def warning(self, message):
+        self.logger.warning(message)
+
+    def error(self, message):
+        self.logger.error(message)
+
+    def critical(self, message):
+        self.logger.critical(message)
+
+```
+### 目录结构
+
+```sh
+./Personal/utils/
+|-- __init__.py
+|-- log_util.py
+```
+
+### 加入系统变量
+
+查找site-packages
+
+```sh
+import site
+print(site.getsitepackages())
+# ['/usr/local/lib/python3.10/dist-packages', '/usr/lib/python3/dist-packages', '/usr/lib/python3.10/dist-packages']
+```
+
+### 重新启动 Python 解释器
+
+```sh
+import os
+import sys
+
+python_executable = sys.executable
+os.execl(python_executable, python_executable, *sys.argv)
+```
+
+### 使用
+
+```py
+from utils.log_util import LoggerUtil
+
+logger_util = LoggerUtil()
+logger_util.info("!! This is an info message.testing")
+logger_util.error("@ This is an error message.")
+
+# [2023-08-20 18:23:40] [INFO] [log_util.py]-[line: 48] [!! This is an info message.testing]
+# [2023-08-20 18:23:40] [ERROR] [log_util.py]-[line: 54] [@ This is an error message.]
+```
 
 ### 如何禁止不必要的输出
 
