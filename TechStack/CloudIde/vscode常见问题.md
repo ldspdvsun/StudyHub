@@ -162,7 +162,7 @@ logger_util.error("@ This is an error message.")
 # [2023-08-20 18:23:40] [ERROR] [log_util.py]-[line: 54] [@ This is an error message.]
 ```
 
-### 如何禁止不必要的输出
+## 如何禁止不必要的输出
 
 您可以按照以下步骤在 VSCode 中的设置中进行配置：
 
@@ -174,7 +174,7 @@ logger_util.error("@ This is an error message.")
 
 4. 保存设置后，再次使用 Code-runner 运行代码，就应该只保留正常输出了。
 
-### 如何引入自定义的头文件
+## 如何引入自定义的头文件
 
 在c语言编译的时候加入 -I 头文件所在目录 即可，以下是code-runner的配置
 
