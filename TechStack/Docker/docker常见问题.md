@@ -144,9 +144,9 @@ bash <(curl -sSL https://gitee.com/SuperManito/LinuxMirrors/raw/main/DockerInsta
 
 [![image.png](https://i.postimg.cc/76CcTbYt/image.png)](https://postimg.cc/zbrpszhT)
 
-## docker cli部署的容器和docker compose部署的容器，双方内部如何才能互相ping通
+## docker cli部署的容器和docker compose部署的容器(自定义网络)，双方内部如何才能互相ping通
 
-> Docker CLI 部署的容器和 Docker Compose 部署的容器，内部网络默认是使用 Docker 网桥，它们在同一个网络中，因此可以相互访问。假设有一个由 Docker Compose 部署的容器应用程序，它的服务名为 web，暴露了一个 HTTP 服务。现在我们想从由 Docker CLI 部署的容器中访问该服务。
+> Docker CLI 部署的容器和 Docker Compose 部署的容器，内部网络默认是使用 Docker 网桥，它们在同一个网络中，因此可以相互访问。假设有一个由 Docker Compose 部署的容器应用程序(自定义网络)，它的服务名为 web，暴露了一个 HTTP 服务。现在我们想从由 Docker CLI 部署的容器中访问该服务。
 
 ### 确定 Docker Compose 容器所在的网络
 
@@ -183,7 +183,7 @@ docker network connect myapp_default <docker_cli_container_name>
 其中，myapp_default 是应用程序的网络名称，<docker_cli_container_name> 是 Docker CLI 部署的容器名称。
 
 ```sh
-root@VM-24-11-ubuntu:/data/docker/mysql# docker network connect mysql_default vscode-server
+root@VM-24-11-ubuntu:/data/docker/mysql# docker network connect mysql_default vscode-server(docker cli部署容器)
 ```
 
 ### 测试容器之间的连通性
@@ -191,7 +191,7 @@ root@VM-24-11-ubuntu:/data/docker/mysql# docker network connect mysql_default vs
 现在我们可以从 Docker CLI 部署的容器中使用 ping 命令测试与 Docker Compose 容器之间的连通性：
 
 ```sh
-docker exec <docker_cli_container_name> ping web
+docker exec <docker_cli_container_name> ping <docker_compose_container_name> 
 ```
 
 其中，<docker_cli_container_name> 是 Docker CLI 部署的容器名称，web 是应用程序中的服务名称。如果一切正常，你应该能够看到类似以下的输出：
