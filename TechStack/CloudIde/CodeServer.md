@@ -138,6 +138,16 @@ apt update;apt upgrade -y;apt dist-upgrade -y
 
 ## 必要插件安装
 
+### vscode 初始化配置
+
+```sh
+gcc -v
+sudo apt-get update
+sudo apt-get install build-essential gdb
+sudo apt-get install iputils-ping
+sudo apt-get install net-tools
+```
+
 ### gcc
 
 ```sh
