@@ -620,6 +620,15 @@ bash <(curl -sSL https://gitee.com/SuperManito/LinuxMirrors/raw/main/ChangeMirro
 6. 选择是否更新软件包 交互
 
     + 选择是否清理已下载的软件包缓存 交互
-```sh
 
+## Ubuntu默认禁止root用户登录，禁止SSH连接
+
+
+1. 修改/etc/ssh/sshd_config文件
+2. 将 #PermitRootLogin prohibit-password 修改为：PermitRootLogin yes
+3. 将 #PasswordAuthentication yes 修改为：PasswordAuthentication yes
+
+```sh
+sudo vim /etc/ssh/sshd_config
+sudo service ssh restart
 ```
