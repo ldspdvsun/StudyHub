@@ -5,7 +5,12 @@
 ## Server节点安装
 
 ```sh
+
+# 方法1
 curl -sfL https://get.k3s.io | sh -
+
+# 方法2
+root@google:/home/ldspdvs# curl -sfL https://get.k3s.io | K3S_KUBECONFIG_MODE="744" sh -s - server --flannel-backend=vxlan --token 12345
 
 # 中国
 curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn sh -
@@ -50,10 +55,17 @@ root@google:/home/ldspdvs#
 ### Agent 加入
 
 ```sh
-curl -sfL https://get.k3s.io | K3S_URL=https://myserver:6443 K3S_TOKEN=mynodetoken sh -
+# Agent 节点在加入server节点的时候，会因网络问题导致加入失败，可通过以下方法解决，具体见参考
+root@aws:/home/ubuntu# iptables -t nat -A OUTPUT -d Server内网IP -j DNAT --to-destination Server外网IP
+
+# 方法1
+root@aws:/home/ubuntu# curl -sfL https://get.k3s.io | K3S_URL=https://myserver:6443 K3S_TOKEN=mynodetoken sh -
+
+# 方法2
+root@aws:/home/ubuntu# curl -sfL https://get.k3s.io | K3S_URL=https://myserver:6443 K3S_TOKEN=12345 sh -
 
 # 中国
-curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn K3S_URL=https://myserver:6443 K3S_TOKEN=mynodetoken sh -
+root@aws:/home/ubuntu# curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh | INSTALL_K3S_MIRROR=cn K3S_URL=https://myserver:6443 K3S_TOKEN=mynodetoken sh -
 ```
 
 # 卸载
@@ -87,3 +99,5 @@ sudo docker run -d \
 # 参考链接
 
 https://docs.k3s.io/zh/
+
+https://www.maosi.vip/2022/01/08/%E8%BF%90%E7%BB%B4%E7%9B%B8%E5%85%B3%EF%BC%9A%E6%AD%BB%E7%A3%95k3s%E5%92%8Crancher/
