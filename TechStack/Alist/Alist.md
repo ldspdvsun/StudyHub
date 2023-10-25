@@ -46,6 +46,7 @@ sudo docker run -i -t -d -p 80:80 --name onlyoffice \
 
 ```sh
 docker exec -it e91769de8a2b /bin/bash
+# 进入 view文件 位置
 root@e91769de8a2b:/var/www/onlyoffice/documentserver/web-apps/apps/api/documents# pwd
 /var/www/onlyoffice/documentserver/web-apps/apps/api/documents
 root@e91769de8a2b:/var/www/onlyoffice/documentserver/web-apps/apps/api/documents# 
@@ -59,7 +60,7 @@ root@e91769de8a2b:/var/www/onlyoffice/documentserver/web-apps/apps/api/documents
  
 <body>
     <div id="placeholder"></div>
-    <script type="text/javascript" src="http://IP:19993/web-apps/apps/api/documents/api.js"></script>
+    <script type="text/javascript" src="http://IP:onlyoffice_PORT/web-apps/apps/api/documents/api.js"></script>
     <script>
         function getQueryParamValue(name) {
             const searchParams = new URLSearchParams(window.location.search);
@@ -99,37 +100,52 @@ root@e91769de8a2b:/var/www/onlyoffice/documentserver/web-apps/apps/api/documents
 
     上述文件中的src根据需要根据情况自行替换IP和端口，访问链接后要求可以正确显示内容
 
-<script type="text/javascript" src="http://IP:19993/web-apps/apps/api/documents/api.js"></script>
+<script type="text/javascript" src="http://IP:onlyoffice_PORT/web-apps/apps/api/documents/api.js"></script>
 
 3. 测试view.html文件是否可以访问
 
->http://IP:19993/web-apps/apps/api/documents/view.html
+```txt
+http://IP:onlyoffice_PORT/web-apps/apps/api/documents/view.html
+```
 
     出现如下提示弹窗后代表onlyoffice配置正确，可以进入alist管理页面配置
 
 The "document.fileType" parameter for the config object is invalid. Please correct it.
 
+4. 现有 onlyoffice:7.5.0.125 部署会出现下列问题
+
+[![image.png](https://i.postimg.cc/jjJMyXW2/image.png)](https://postimg.cc/yJshH0yC)
+
+具体解决方法如下
+
+```sh
+docker exec -it e91769de8a2b /bin/bash
+
+cd /etc/onlyoffice/documentserver
+sed -i 's/true/false/g' local.json  
+supervisorctl restart all
+```
 ## alist
 
 1. 进入alist管理 -> 设置 -> 预览 -> Iframe
 
     在需要的文件类型下添加onlyoffice链接，其中?前面的为上述onlyoffice中配置的链接，?后面的为参数。具体内容如下。
 ```sh
-http://IP:19993/web-apps/apps/api/documents/view.html?src=$e_url
+http://IP:onlyoffice_PORT/web-apps/apps/api/documents/view.html?src=$e_url
 ```
 
 ```sh
 {
 	"doc,docx,xls,xlsx,ppt,pptx": {
-		"onlyoffice":"http://IP:19993/web-apps/apps/api/documents/view.html?src=$e_url",
+		"onlyoffice":"http://IP:onlyoffice_PORT/web-apps/apps/api/documents/view.html?src=$e_url",
         "Google":"https://docs.google.com/gview?url=$e_url&embedded=true"
 	},
 	"pdf": {
-        "onlyoffice":"http://IP:19993/web-apps/apps/api/documents/view.html?src=$e_url",
+        "onlyoffice":"http://IP:onlyoffice_PORT/web-apps/apps/api/documents/view.html?src=$e_url",
 		"PDF.js":"https://alist-org.github.io/pdf.js/web/viewer.html?file=$e_url"
 	},
 	"epub": {
-        "onlyoffice":"http://IP:19993/web-apps/apps/api/documents/view.html?src=$e_url",
+        "onlyoffice":"http://IP:onlyoffice_PORT/web-apps/apps/api/documents/view.html?src=$e_url",
 		"EPUB.js":"https://alist-org.github.io/static/epub.js/viewer.html?url=$e_url"
 	}
 }
