@@ -662,6 +662,39 @@ Removing network mysql_bridge
 root@VM-24-11-ubuntu:/data/docker/mysql# 
 ```
 
+## docker cli 部署 mysql
+
+### 创建容器
+
+```sh
+docker run -itd --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql
+```
+
+### 常见问题处理
+
+1. 修改密码
+```sh
+docker exec -it mysql /bin/bash
+alter user 'root'@'localhost' identified by 'new_password';
+alter user 'root'@'%' identified by 'new_password';
+
+# 刷新权限
+flush privileges;
+```
+
+2. 忘记密码
+```sh
+docker exec -it mysql /bin/bash
+
+vim /etc/mysql/mysql.conf.d/mysqld.cnf
+
+需要加入“skip-grant-tables”  按i     cv加入"skip-grant-tables"     按esc   然后:wq!
+
+exit
+
+docker restart mysql 
+```
+
 ## 参考链接
 
 > https://www.jb51.net/article/251117.htm
