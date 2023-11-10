@@ -182,6 +182,8 @@ server {
     2. 重启nginx，并查看nginx状态
  
 ```sh
+# 查看语法是否有误，无误后重启
+root@VM-24-11-ubuntu:~# nginx -t
 root@VM-24-11-ubuntu:~# sudo systemctl restart nginx
 root@VM-24-11-ubuntu:~# systemctl status nginx
 # 查看nginx状态无误后，可以设置nginx开机自启
