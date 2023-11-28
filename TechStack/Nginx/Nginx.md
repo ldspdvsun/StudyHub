@@ -1,22 +1,22 @@
 # 需求分析
 
-|序号|需求简述|完成情况|备注|
-|---|---|---|---|
-|1|Ubuntu系统安装docker|完成||
-|2|docker部署容器（ahmadnassri/vscode-server:latest）|完成||
-|3|为公网IP申请ssl证书| 完成| 目前支持公网IP的ssl证书只找到zerossl|
-|4|部署nginx配置ssl|完成| zerossl申请时，需要先通过访问公网IP验证是否加载提供的txt文件，<br />暂时未完全掌握|
-|5|为docker部署的容器成功运行后的端口开启反向代理|完成||
-|6|为端口加入认证服务|完成||
-
+| 序号 | 需求简述                                           | 完成情况 | 备注                                                                               |
+| ---- | -------------------------------------------------- | -------- | ---------------------------------------------------------------------------------- |
+| 1    | Ubuntu系统安装docker                               | 完成     |                                                                                    |
+| 2    | docker部署容器（ahmadnassri/vscode-server:latest） | 完成     |                                                                                    |
+| 3    | 为公网IP申请ssl证书                                | 完成     | 目前支持公网IP的ssl证书只找到zerossl                                               |
+| 4    | 部署nginx配置ssl                                   | 完成     | zerossl申请时，需要先通过访问公网IP验证是否加载提供的txt文件，<br />暂时未完全掌握 |
+| 5    | 为docker部署的容器成功运行后的端口开启反向代理     | 完成     |                                                                                    |
+| 6    | 为端口加入认证服务                                 | 完成     |                                                                                    |
 
 # 基本需求软件及版本分析
 
-|软件名称|版本|
-|---|---|
-|Ubuntu|20.04 LTS|
-|Docker|20.10.5|
-|nginx|1.18.0|
+| 软件名称 | 版本      |
+| -------- | --------- |
+| Ubuntu   | 20.04 LTS |
+| Docker   | 20.10.5   |
+| nginx    | 1.18.0    |
+
 ## Ubuntu版本信息
 
 ```sh
@@ -180,7 +180,7 @@ server {
 ```
 
     2. 重启nginx，并查看nginx状态
- 
+
 ```sh
 # 查看语法是否有误，无误后重启
 root@VM-24-11-ubuntu:~# nginx -t
@@ -230,7 +230,7 @@ sudo apt-get purge nginx nginx-common nginx-full
 
 2. 验证域名
 
-    选择网站 Web 访问的话，直接下载验证文件，然后上传到 IP 地址默认的 Web 目录(/var/www/html/)下，要求是路径保持如下：
+   选择网站 Web 访问的话，直接下载验证文件，然后上传到 IP 地址默认的 Web 目录(/var/www/html/)下，要求是路径保持如下：
 
 ```sh
 ubuntu@ip-172-31-38-101:~$ cd /var/www/html/
@@ -271,6 +271,7 @@ root@VM-24-11-ubuntu:~# sudo htpasswd -c /etc/nginx/.htpasswd username password
 ```
 
 3. 修改nginx配置文件
+
 ```sh
 server {
      listen 80;
@@ -287,6 +288,19 @@ server {
 ```
 
 4. 重启nginx
+
 ```sh
 root@VM-24-11-ubuntu:~# sudo systemctl restart nginx
+```
+
+## HTTP自动转至HTTPS
+
+```
+server {
+    listen 80;
+    server_name 1.1.1.1;
+
+    # Redirect all HTTP requests to HTTPS
+    return 301 https://$host$request_uri;
+}
 ```
