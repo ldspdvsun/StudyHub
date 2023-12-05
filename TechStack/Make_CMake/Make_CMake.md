@@ -264,3 +264,101 @@ objs/main.o objs/framework.o objs/pthread/pthread_demo_01.o objs/proc/mem_segmen
 root@3570ce881c55:~/code/vscode-server/Personal/CMake# 
 ```
 
+## foreach
+
+```makefile
+$(foreach <var>,<list>,<test>)
+```
+
++ 名称：循环函数
++ 功能：把字符串<list>中的元素逐一取出来，执行<text>包含的表达式
++ 返回：<test>返回每个字符串组成的整个字符串
+
+> 示例
+
+```makefile
+include_paths := /usr/include \
+				/root/code/vscode-server/Personal/CMake/include
+include_paths_foreach:=$(foreach item,$(include_paths),-I $(item))
+out_include:
+	@echo $(include_paths)
+	@echo ----------------------
+	@echo $(include_paths_foreach)
+```
+
+foreach类比python
+
+```python
+for item in includes:
+    item = "-I " + item
+```
+
+同等效果
+
+```makefile
+include_paths := /usr/include \
+				/root/code/vscode-server/Personal/CMake/include
+I_flag := $(include_paths:%=-I %)
+out_include:
+	@echo $(include_paths)
+	@echo ----------------------
+	@echo $(I_flag)
+```
+
+## dir
+
+```makefile
+$(dir <name...>)
+```
+
++ 功能：取目录函数
++ 功能：从文件名序列中取出目录部分，目录部分是指最后一个反斜杠（‘/’）之前的那部分，如果没有反斜杠，那么返回“./”.
++ 返回：返回文件名序列的目录部分
+
+> 示例
+
+```sh
+$(dir src/foo.c hacks)
+# 返回值是“src/ ./”
+```
+
+```makefile
+.PHONY: out_dir compile 
+include_paths := /root/code/vscode-server/Projects/Make_CMake/include \
+				/usr/include
+
+include_path := $(foreach item,$(include_paths),-I $(item))
+c_srcs := $(shell find src -name "*.c")
+c_objs:= $(patsubst src/%.c,objs/%.o,$(c_srcs))
+out_dirs:= $(dir $(c_srcs))
+
+objs/%.o : src/%.c
+	@mkdir -p $(dir $@)
+	@gcc -c $^ -o $@ $(include_path)
+
+compile: $(c_objs)
+
+out_dir:
+	@echo ===============
+	@echo $(include_path) 
+	@echo ===============
+	@echo $(c_srcs) 
+	@echo ===============
+	@echo $(c_objs) 
+	@echo ===============
+	@echo $(out_dirs) 
+```
+
+```sh
+root@3570ce881c55:~/code/vscode-server/Projects/Make_CMake# make out_dir
+===============
+-I /root/code/vscode-server/Projects/Make_CMake/include -I /usr/include
+===============
+src/main.c src/pthread/pthread_demo_01.c src/proc/mem_segments.c src/temp/temp.c src/file/S0100201GN_02.c
+===============
+objs/main.o objs/pthread/pthread_demo_01.o objs/proc/mem_segments.o objs/temp/temp.o objs/file/S0100201GN_02.o
+===============
+src/ src/pthread/ src/proc/ src/temp/ src/file/
+root@3570ce881c55:~/code/vscode-server/Projects/Make_CMake# 
+```
+
