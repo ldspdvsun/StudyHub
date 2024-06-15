@@ -1,0 +1,31 @@
+Sub 测试用例_删除输入及操作说明_期望测试结果空白行()
+'
+' 测试用例_删除输入及操作说明_期望测试结果空白行 宏
+'
+'
+    Dim doc As Document
+    Dim tbl As Table
+    Dim i As Integer
+    Dim rowCount As Integer
+    
+    ' 获取当前活动文档
+    Set doc = ActiveDocument
+    
+    ' 遍历文档中的每个表格
+    For Each tbl In doc.Tables
+        ' 获取表格的行数
+        rowCount = tbl.Rows.Count
+        
+        ' 从下往上遍历表格的行
+        For i = rowCount - 4 To 11 Step -1
+            ' 判断第1列第3列是否都为空
+            cellContent2 = Trim(tbl.Cell(i, 2).Range.Text)
+            cellContent3 = Trim(tbl.Cell(i, 3).Range.Text)
+            Debug.Print cellContent3
+            If InStr(1, cellContent2, "Meliorism") > 0 And InStr(1, cellContent3, "Meliorism") > 0 Then
+                ' 删除空白行
+                tbl.Rows(i).Delete
+            End If
+        Next i
+    Next tbl
+End Sub

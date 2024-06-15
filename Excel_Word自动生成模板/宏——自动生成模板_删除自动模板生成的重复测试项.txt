@@ -1,0 +1,28 @@
+Sub 自动生成模板_删除自动模板生成的重复测试项()
+'
+' 自动生成模板_删除自动模板生成的重复测试项 宏
+'
+'
+    Dim i As Integer, j As Integer
+    Dim isDuplicate As Boolean
+    
+    For i = 1 To ActiveDocument.Paragraphs.Count
+        firstParagraph = ActiveDocument.Paragraphs(i)
+        If firstParagraph.Style Like "*3*" Then
+            Debug.Print firstParagraph
+            isDuplicate = False
+            For j = i + 1 To ActiveDocument.Paragraphs.Count
+                secondParagraph = ActiveDocument.Paragraphs(j)
+                If secondParagraph.Style Like "*3*" Then
+                    Debug.Print secondParagraph
+                    If ActiveDocument.Paragraphs(i).Range.Text = ActiveDocument.Paragraphs(j).Range.Text Then
+                        isDuplicate = True
+                        ActiveDocument.Paragraphs(j).Range.Delete
+                    Else
+                        Exit For
+                    End If
+                End If
+            Next j
+        End If
+    Next i
+End Sub

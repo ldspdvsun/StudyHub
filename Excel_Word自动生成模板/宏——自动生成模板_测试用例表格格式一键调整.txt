@@ -1,0 +1,53 @@
+Sub 表格格式一键调整()
+'
+' 表格格式一键调整 宏
+'
+'
+'1、调整字体格式：宋体5号（10.5磅），Times New Roman,且居中，单倍行距，段前0，段后0，缩进：左0，右0，正文格式
+    Dim tempTable As Table
+    Application.ScreenUpdating = False
+    If ActiveDocument.ProtectionType = wdAllowOnlyFormFields Then
+        MsgBox "文档已保护，此时不能选中多个表格！"
+        Exit Sub
+    End If
+    ActiveDocument.DeleteAllEditableRanges wdEditorEveryone
+    For Each tempTable In ActiveDocument.Tables
+        tempTable.Range.Editors.Add wdEditorEveryone
+    Next
+    ActiveDocument.SelectAllEditableRanges wdEditorEveryone
+    ActiveDocument.DeleteAllEditableRanges wdEditorEveryone
+    Application.ScreenUpdating = True
+    Selection.Font.Name = "宋体"
+    Selection.Font.Size = 10.5
+    Selection.Font.Name = "Times New Roman"
+    With Selection.ParagraphFormat
+        .LeftIndent = CentimetersToPoints(0)
+        .RightIndent = CentimetersToPoints(0)
+        .SpaceBefore = 0
+        .SpaceBeforeAuto = False
+        .SpaceAfter = 0
+        .SpaceAfterAuto = False
+        .LineSpacingRule = wdLineSpaceSingle
+        .Alignment = wdAlignParagraphCenter
+        .FirstLineIndent = CentimetersToPoints(0)
+        .OutlineLevel = wdOutlineLevelBodyText
+        .CharacterUnitLeftIndent = 0
+        .CharacterUnitRightIndent = 0
+        .CharacterUnitFirstLineIndent = 0
+        .LineUnitBefore = 0
+        .LineUnitAfter = 0
+        .WordWrap = True
+    End With
+' 2、输入格式调整：两边对齐
+For t = 1 To ActiveDocument.Tables.Count
+    LastR = ActiveDocument.Tables(t).Rows.Count - 4
+     For r = 1 To 9
+        ActiveDocument.Tables(t).Cell(r, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphJustify
+    Next r
+    For r = 12 To LastR
+        ActiveDocument.Tables(t).Cell(r, 2).Range.ParagraphFormat.Alignment = wdAlignParagraphJustify
+        ActiveDocument.Tables(t).Cell(r, 3).Range.ParagraphFormat.Alignment = wdAlignParagraphJustify
+        ActiveDocument.Tables(t).Cell(r, 4).Range.ParagraphFormat.Alignment = wdAlignParagraphJustify
+    Next r
+Next t
+End Sub
