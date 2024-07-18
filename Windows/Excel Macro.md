@@ -1,12 +1,12 @@
 ## 合并单元格
 
-'''vba
+```vba
 Sub MergedCells()  '从下向上合并
     Dim myRange As Variant
     Dim arr As Variant
     Dim i, j, cmax, rmax, str, a
     Dim rng As Range
-    
+
     Excel.Application.DisplayAlerts = False    '关闭合并单元格时弹出的仅保留左上角值的弹窗
     '选择需要合并的区域，如果是多个不连续的区域，按住ctrl进行选择即可
     Set myRange = Application.InputBox(prompt:="Select a cell to be expanded", Type:=8)
@@ -20,7 +20,7 @@ Sub MergedCells()  '从下向上合并
          rmax = rng.Rows.Count
          cmax = rng.Columns.Count
 
-        For j = 1 To cmax
+    For j = 1 To cmax
             For i = rmax To 2 Step -1  '遍历区域的行到第2行，默认存在标题行
             '从下向上合并，到第2行时，其内容不会和标题行一样，所以不合并，从上向下合并代码量较多
                 If rng.Cells(i, j).Value = rng.Cells(i - 1, j).Value Then
@@ -28,16 +28,15 @@ Sub MergedCells()  '从下向上合并
                 End If
             Next
         Next
-        
+
     Next
     Excel.Application.DisplayAlerts = True
 End Sub
-'''
-
+```
 
 ## 取消单元格合并并填充
 
-'''vba
+```vba
 Sub SplitMergedCellsAndFill()
     Dim myRange As Variant
     Dim arr As Variant
@@ -51,15 +50,15 @@ Sub SplitMergedCellsAndFill()
 
     ' Prompt the user to select a range of cells to unmerge and fill
     Set myRange = Application.InputBox(prompt:="Select a cell to be expanded", Type:=8)
-    
+
     ' Split the selected ranges in case of multiple non-contiguous selections
     arr = Split(myRange.Address, ",")
 
     ' Loop through each selected range
     For Each a In arr
         Set rng = Range(Replace(a, "$", ""))
-        
-        ' Loop through each cell in the selected range
+
+    ' Loop through each cell in the selected range
         For Each cell In rng
             ' Check if the cell is part of a merged cell
             If cell.MergeCells Then
@@ -67,10 +66,10 @@ Sub SplitMergedCellsAndFill()
                 Dim rowCount As Long
                 rowCount = cell.MergeArea.Rows.Count
 
-                ' Unmerge the cells
+    ' Unmerge the cells
                 cell.MergeArea.UnMerge
 
-                ' Fill the unmerged cells with the value from the first cell
+    ' Fill the unmerged cells with the value from the first cell
                 For i = 2 To rowCount
                     cell.Offset(i - 1, 0).Value = cell.Value
                 Next i
@@ -82,4 +81,4 @@ Sub SplitMergedCellsAndFill()
     Excel.Application.DisplayAlerts = True
 End Sub
 
-'''
+```
