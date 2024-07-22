@@ -1,7 +1,8 @@
 ## 合并单元格
 
 ```vba
-Sub MergedCells()  '从下向上合并
+Sub MergedCells()
+    '从下向上合并
     Dim myRange As Variant
     Dim arr As Variant
     Dim i, j, cmax, rmax, str, a
@@ -17,14 +18,18 @@ Sub MergedCells()  '从下向上合并
         Set rng = Range(Replace(a, "$", ""))
         '此处括号内得到的已经是字符串格式了，再使用range做引用即可，无需再对括号内的内容进行左右的双引号连接
         '如果有需要把双引号作为连接内容的场景，可以加双重引号，比如"""excel"""，得到的就是"excel"；'也可以直接使用chr(34)进行连接，它对应的就是双引号
-         rmax = rng.Rows.Count
-         cmax = rng.Columns.Count
+        rmax = rng.Rows.Count
+        cmax = rng.Columns.Count
 
-    For j = 1 To cmax
+        For j = 1 To cmax
             For i = rmax To 2 Step -1  '遍历区域的行到第2行，默认存在标题行
             '从下向上合并，到第2行时，其内容不会和标题行一样，所以不合并，从上向下合并代码量较多
                 If rng.Cells(i, j).Value = rng.Cells(i - 1, j).Value Then
-                    Range(rng.Cells(i - 1, j), rng.Cells(i, j)).Merge
+                    With Range(rng.Cells(i - 1, j), rng.Cells(i, j))
+                        .Merge
+                        .HorizontalAlignment = xlCenter
+                        .VerticalAlignment = xlCenter
+                    End With
                 End If
             Next
         Next
@@ -32,6 +37,7 @@ Sub MergedCells()  '从下向上合并
     Next
     Excel.Application.DisplayAlerts = True
 End Sub
+
 ```
 
 ## 取消单元格合并并填充
@@ -58,7 +64,7 @@ Sub SplitMergedCellsAndFill()
     For Each a In arr
         Set rng = Range(Replace(a, "$", ""))
 
-    ' Loop through each cell in the selected range
+        ' Loop through each cell in the selected range
         For Each cell In rng
             ' Check if the cell is part of a merged cell
             If cell.MergeCells Then
@@ -66,13 +72,23 @@ Sub SplitMergedCellsAndFill()
                 Dim rowCount As Long
                 rowCount = cell.MergeArea.Rows.Count
 
-    ' Unmerge the cells
+                ' Unmerge the cells
                 cell.MergeArea.UnMerge
 
-    ' Fill the unmerged cells with the value from the first cell
+                ' Fill the unmerged cells with the value from the first cell
                 For i = 2 To rowCount
-                    cell.Offset(i - 1, 0).Value = cell.Value
+                    With cell.Offset(i - 1, 0)
+                        .Value = cell.Value
+                        .HorizontalAlignment = xlCenter
+                        .VerticalAlignment = xlCenter
+                    End With
                 Next i
+
+                ' Set alignment for the original cell
+                With cell
+                    .HorizontalAlignment = xlCenter
+                    .VerticalAlignment = xlCenter
+                End With
             End If
         Next cell
     Next
@@ -80,5 +96,4 @@ Sub SplitMergedCellsAndFill()
     ' Turn alerts back on
     Excel.Application.DisplayAlerts = True
 End Sub
-
 ```
