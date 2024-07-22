@@ -37,7 +37,6 @@ Sub MergedCells()
     Next
     Excel.Application.DisplayAlerts = True
 End Sub
-
 ```
 
 ## 取消单元格合并并填充
