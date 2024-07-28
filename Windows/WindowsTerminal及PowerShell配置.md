@@ -131,7 +131,7 @@ $ oh-my-posh get shell
 bash
 ```
 
-2. 参考官方文档https://ohmyposh.dev/docs/installation/prompt，针对不同shell类型有不同的应用方式。比如比较常见的bash，通常是在~/.bashrc文件的最下面添加一行
+2. 参考官方文档https://ohmyposh.dev/docs/installation/prompt， 针对不同shell类型有不同的应用方式。比如比较常见的bash，通常是在~/.bashrc文件的最下面添加一行
 ```sh
 eval "$(oh-my-posh init bash --config ~/.poshthemes/jandedobbeleer.omp.json)"
 ```
