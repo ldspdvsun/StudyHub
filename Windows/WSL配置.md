@@ -151,3 +151,33 @@ wsl --shutdown
 
 Ubuntu config --default-user username
 ```
+
+# 设置本地及局域网访问
+
+> 现有WSL配置之后,如果使用docker部署服务,虽然可以通过127.0.0.1:端口或localhost:端口访问,当时局域网内其他设备无法通过IP:端口的方式访问
+
+## 配置 Windows 端口代理
+
+```shell
+# netsh interface portproxy add v4tov4 listenport=<yourPortToForward> listenaddress=0.0.0.0 connectport=<yourPortToConnectToInWSL> connectaddress=(wsl hostname -I)
+PS C:\Users\xxx> netsh interface portproxy add v4tov4 listenport=19000 listenaddress=0.0.0.0 connectport=19000 connectaddress=172.28.3.93
+```
+
+## 查询 Windows 端口代理
+```shell
+PS C:\Users\xxx> netsh interface portproxy show all
+
+侦听 ipv4:                 连接到 ipv4:
+
+地址            端口        地址            端口
+--------------- ----------  --------------- ----------
+0.0.0.0         19980       172.28.3.93     19980
+0.0.0.0         19000       172.28.3.93     19000
+
+PS C:\Users\xxx>
+```
+
+## 删除 Windows 端口代理
+```shell
+PS C:\Users\xxx> netsh interface portproxy delete v4tov4 listenport=19000 listenaddress=192.168.2.105
+```
