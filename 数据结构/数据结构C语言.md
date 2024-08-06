@@ -835,15 +835,348 @@ pop: a 0x7fff349b3c40
 ## 队列
 
 ### 什么是队列
+
+队列（queue）是一种先进先出（First In First Out，FIFO）的线性表
+
+[![image.png](https://i.postimg.cc/MKh5SQc7/image.png)](https://postimg.cc/tYNWd7NJ)
+
 ### 队列的表示
+
+队列也有顺序和链式两种表示方法。通用，我们可以将链式队列裂解为一种特殊的链表，只运行在表头删除，在表尾插入。
+```c
+
+// 队列节点
+typedef struct queue_node
+{
+    // 后继节点
+    struct queue_node *next;
+    // 值
+    void *data;
+}queue_node;
+
+// 队列本身
+typedef struct queue
+{
+    // 队头
+    struct queue_node *head;
+    // 队尾
+    struct queue_node *tail;
+    // 队列长度
+    int length;
+}queue;
+```
+
 ### 队列的操作
+通常来说，队列常用的操作也是插入和删除两种。将执行删除的一端称为队头（head）,执行插入操作的一端称为队尾（tail）。
+
 ### 函数清单
+
+|函数|作用|算法复杂度|
+|-|-|-|
+|queue_create|创建新队列|O(1)|
+|queue_push|入队|O(1)|
+|queue_pull|出队|O(1)|
+|queue_empty|释放队列中的节点（头节点除外），但不释放队列本身|O(N)|
+|queue_release|释放队列，以及队列中的节点|O(N)|
+
 ### 创建新队列
+
+```c
+
+// 创建队列
+queue *queue_create()
+{
+    // 创建一个队列
+    queue *queue = (struct queue *)malloc(sizeof(struct queue));
+
+    // 为了方便操作，队列默认创建一个队列节点
+    queue_node *node = (struct queue_node *)malloc(sizeof(struct queue_node));
+    if (queue == NULL || node == NULL)
+    {
+        return NULL;
+    }
+    node->data = NULL;
+    node->next = NULL;
+
+    // 初始化队列
+    queue->head = queue->tail = node;
+    queue->length = 0;
+}
+```
+在创建新队列是，首先创建队列本身，接着，创建一个队列节点（头节点），并将队列的head 和 tail指针都指向这个节点。最后队列的长度设置尾0。
+
+[![image.png](https://i.postimg.cc/85tk3CQ2/image.png)](https://postimg.cc/S2YpYkKd)
+
 ### 入队
+
+```c
+
+// 入队
+queue *queue_push(queue *queue, void *data)
+{
+    // 创建一个节点
+    queue_node *node = (struct queue_node *)malloc(sizeof(struct queue_node));
+    if (node == NULL)
+    {
+        return NULL;
+    }
+    node->data = data;
+
+    // 在队尾插入元素
+    queue->tail->next = node;
+    queue->tail = queue->tail->next;
+
+    queue->length++;
+    return queue;
+}
+```
+在有元素需要入队的时候，执行在表尾的插入操作。
+首先创建一个新的节点，接着让最后一个节点，即队尾指针tail指向的节点next指针指向新节点，然后，队尾指针tail也指向新的节点。最后，队列长度自增1。
+
+[![image.png](https://i.postimg.cc/xjzvbkHx/image.png)](https://postimg.cc/xq9Jw16M)
+
 ### 出队
+```c
+// 出队
+void *queue_pull(queue *queue)
+{
+    queue_node *curr = queue->head->next;
+
+    // 判断队列中是否有数据
+    if (curr == NULL)
+    {
+        return NULL;
+    }
+
+    void *data = curr->data;
+
+    queue->head->next = curr->next;
+
+    // 判断队列中除头节点外，是否只有一个节点，避免尾指针丢失
+    if (queue->tail = curr)
+    {
+        queue->tail = queue->head;
+    }
+    free(curr);
+    queue->length--;
+    return data;
+}
+```
+有元素出队时，首先判断队列是否有数据，如果没有则返回NULL，如果有则返回头节点下一个节点的数据。接着，判断队列中除头节点外，是否只有一个节点。如果只有一个节点，那么下一步是否节点的内存是，tail指针将会被一同释放，进而造成尾指针的丢失。
+最后释放出队的节点内存，队列长度自减1。
+
+[![image.png](https://i.postimg.cc/hvVM8sys/image.png)](https://postimg.cc/GThkdF1T)
+
 ### 清空队列
+```c
+// 清空队列
+void queue_empty(queue *queue)
+{
+    int length = queue->length;
+    queue_node *curr, *next;
+
+    // 注意这里不释放节点
+    curr = queue->head->next;
+    while (length--)
+    {
+        next = curr->next;
+        free(curr);
+        curr = next;
+    }
+
+    queue->head->next = NULL;
+    queue->head->data = NULL;
+    queue->tail = queue->head;
+    queue->length = 0;
+}
+```
+释放队列的所有数据系欸但，但不释放头节点，所有循环从head->next开始。因为head->next被free过，所以再次设置为NULL。
+最后，设置队列长度为0，释放完毕。
+
 ### 清除队列
+
+```c
+
+// 清空队列
+void queue_empty(queue *queue)
+{
+    int length = queue->length;
+    queue_node *curr, *next;
+
+    // 注意这里不释放节点
+    curr = queue->head->next;
+    while (length--)
+    {
+        next = curr->next;
+        free(curr);
+        curr = next;
+    }
+
+    queue->head->next = NULL;
+    queue->head->data = NULL;
+    queue->tail = queue->head;
+    queue->length = 0;
+}
+```
+
 ### 完整代码
+
+```c
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+// 队列节点
+typedef struct queue_node
+{
+    /* 后继节点 */
+    struct queue_node *next;
+    /* 值 */
+    void *data;
+} queue_node;
+
+// 队列本身
+typedef struct queue
+{
+    // 队头
+    struct queue_node *head;
+    // 队尾
+    struct queue_node *tail;
+    // 队列长度
+    int length;
+} queue;
+
+// 创建队列
+queue *queue_create()
+{
+    // 创建一个队列
+    queue *queue = (struct queue *)malloc(sizeof(struct queue));
+
+    // 为了方便操作，队列默认创建一个队列节点
+    queue_node *node = (struct queue_node *)malloc(sizeof(struct queue_node));
+    if (queue == NULL || node == NULL)
+    {
+        return NULL;
+    }
+    node->data = NULL;
+    node->next = NULL;
+
+    // 初始化队列
+    queue->head = queue->tail = node;
+    queue->length = 0;
+    return queue;
+}
+
+// 入队
+queue *queue_push(queue *queue, void *data)
+{
+    // 创建一个节点
+    queue_node *node = (struct queue_node *)malloc(sizeof(struct queue_node));
+    if (node == NULL)
+    {
+        return NULL;
+    }
+    node->data = data;
+
+    // 在队尾插入元素
+    queue->tail->next = node;
+    queue->tail = queue->tail->next;
+
+    queue->length++;
+    return queue;
+}
+
+// 出队
+void *queue_pull(queue *queue)
+{
+    queue_node *curr = queue->head->next;
+
+    // 判断队列中是否有数据
+    if (curr == NULL)
+    {
+        return NULL;
+    }
+
+    void *data = curr->data;
+
+    queue->head->next = curr->next;
+
+    // 判断队列中除头节点外，是否只有一个节点，避免尾指针丢失
+    if (queue->tail == curr)
+    {
+        queue->tail = queue->head;
+    }
+    free(curr);
+    queue->length--;
+    return data;
+}
+
+// 清空队列
+void queue_empty(queue *queue)
+{
+    int length = queue->length;
+    queue_node *curr, *next;
+
+    // 注意这里不释放节点
+    curr = queue->head->next;
+    while (length--)
+    {
+        next = curr->next;
+        free(curr);
+        curr = next;
+    }
+
+    queue->head->next = NULL;
+    queue->head->data = NULL;
+    queue->tail = queue->head;
+    queue->length = 0;
+}
+
+// 释放队列，包括队列中节点
+void queue_release(queue *queue)
+{
+    queue_empty(queue);
+    // 注意头节点也要释放
+    free(queue->head);
+    free(queue);
+}
+int main()
+{
+    char a = 'a';
+    char b = 'b';
+    char c = 'c';
+
+    queue *queue = queue_create();
+    printf("pull:%p\n", queue_pull(queue));
+
+    printf("====================\n");
+
+    queue_push(queue, &a);
+    queue_push(queue, &b);
+    queue_push(queue, &c);
+
+    while (queue->length)
+    {
+        char *temp = (char *)queue_pull(queue);
+        printf("queue_pull:%c %p\n", *temp, temp);
+    }
+    printf("====================\n");
+
+    queue_push(queue, &c);
+    queue_push(queue, &c);
+
+    // 释放队列中节点
+    queue_empty(queue);
+    printf("pull:%p\n", queue_pull(queue));
+
+    // 释放队列
+    queue_release(queue);
+
+    return 0;
+}
+```
+
 
 ## 双链表
 
