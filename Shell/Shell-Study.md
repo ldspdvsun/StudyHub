@@ -4,18 +4,14 @@
 docker run -itd --privileged --name centos7-shell centos:centos7.9.2009 /bin/bash
 ```
 
-1.	看懂shell
-
-2.	能改shell
-
-3.	能写shell
-
-4.	优化shell
+1. 看懂shell
+2. 能改shell
+3. 能写shell
+4. 优化shell
 
 shell是一个程序，用C语言编写，用户和linux内核沟通的桥梁。既是一种命令语言又是一种解释性的编程语言
 
 [![image-shell-1.png](https://i.postimg.cc/KvcQwHHP/image-shell-1.png)](https://postimg.cc/CdtjfmY5)
-
 
 •	kernel：为软件服务，接受用户指令或软件指令驱动硬件，完成工作（外国人 收到翻译后的话）
 
@@ -33,6 +29,7 @@ hello 亲
 sun
 [root@root sun]# 
 ```
+
 ## shell功能
 
 •	命令行解释功能
@@ -50,17 +47,17 @@ sun
 •	环境控制
 
 •	shell编程
+
 # shell脚本语法
 
 ## 如何抒写shell脚本
 
 1. shell脚本的命名
 
-    a. 名字要有意义，不要太长
-
+   a. 名字要有意义，不要太长
 2. shell脚本格式
 
-    a. 开头指定运行环境 用#! 添加备注
+   a. 开头指定运行环境 用#! 添加备注
 
 ```sh
 [root@Centos8 shells]# cat nginx_install.sh 
@@ -245,7 +242,6 @@ root     pts/3        2022-11-13 17:23 (114.242.250.71)
 ### 输入重定向（<(英文)）
 
 * 输入重定向是文件的内容重定向至命令
-
 * command < inputfile
 * wc 可以统计数据中的文本，默认情况下会输出3个值
 * 文本的行数
@@ -261,7 +257,6 @@ root     pts/3        2022-11-13 17:23 (114.242.250.71)
 #### 内连输入重定向(<<)
 
 * 使用此符号时，必须指定一个文本标记来划分输入数据的起止。任何字符串都可以作为文本标记，但在数据开始和结尾的文本标记必须一致
-
 
 ```sh
 commond << marker
@@ -388,10 +383,9 @@ Linux退出状态码
 | 130    | 通过Ctrl+C终止命令         |
 | 255    | 正常范围之外的退出状态码   |
 
-
 ### exit
 
->exit
+> exit
 
 # 格式化输出
 
@@ -504,6 +498,7 @@ echo -e "\033[字背景颜色；文字颜色m字符串\033[0m"
 ```
 
 下面是相应的字和背景颜色，可以自己来尝试找出不同颜色搭配
+
 ```sh
 例
 　　echo -e “\033[31m 红色字 \033[0m”
@@ -708,6 +703,7 @@ b、变量名与内存空间关系：计算机中会将对应的内存空间地�
 在代码运作的过程中，可能会把某些命令的执行结果保存起来，后续代码需要使用这些结果，就可以直接使用这个变量。
 
 ### 定义一个变量
+
 变量格式： 变量名=值
 在shell编程中的变量名和等号之间不能有空格。
 变量名命名规则：
@@ -730,6 +726,7 @@ _name
 ```
 
 定义变量演示：
+
 ```sh
 变量赋值，此种方法设置为本地变量
 [root@zutuanxue ~]# name="baism"
@@ -741,6 +738,7 @@ _name
 ### 取消变量 unset
 
 取消当前环境中的变量，如果是变量设置是保存在文件中，下次重启又会恢复
+
 ```sh
 [root@zutuanxue ~]# unset name
 [root@zutuanxue ~]# echo $name
@@ -843,12 +841,11 @@ echo $_name
 
 [![1600685550727-20220801230504-3dv909m.png](https://i.postimg.cc/bNZjfXr2/1600685550727-20220801230504-3dv909m.png)](https://postimg.cc/SJbPcvWy)
 
-
 ### 全局变量
 
 使用export命令将本地变量输出为当前shell中的环境变量所有用户及shell都可以使用，可以在/etc/profile /etc/bashrc下永久定义
 
->打印全局变量 printenv
+> 打印全局变量 printenv
 
 ### 内置变量
 
@@ -872,7 +869,7 @@ $#：脚本后面接的参数的个数
 $*：脚本后面所有参数，参数当成一个整体输出，每一个变量参数之间以空格隔开
 $@: 脚本后面所有参数，参数是独立的，也是全部输出
 
-$0：当前执行的进程/程序名  echo $0     
+$0：当前执行的进程/程序名  echo $0   
 $1~$9 位置参数变量
 ${10}~${n} 扩展位置参数变量  第10个位置变量必须用{}大括号括起来
 ./1.sh a b c
@@ -924,20 +921,25 @@ a b c
 * 全局变量：全局所有的用户和程序都能调用，且继承，新建的用户也默认能调用.
 * 内置变量：shell本身已经固定好了它的名字和作用.
 
-|变量类型|作用域|生命周期|
-| ---| ---| ---|
-|本地变量|当前shell环境(子shell不能用)|脚本结束或终端结束|
-|环境变量|当前shell或者子shell|当前进程结束|
-|全局变量|所有用户及shell环境|关机|
-|内置变量|所有用户及shell环境|关机|
+| 变量类型 | 作用域                       | 生命周期           |
+| -------- | ---------------------------- | ------------------ |
+| 本地变量 | 当前shell环境(子shell不能用) | 脚本结束或终端结束 |
+| 环境变量 | 当前shell或者子shell         | 当前进程结束       |
+| 全局变量 | 所有用户及shell环境          | 关机               |
+| 内置变量 | 所有用户及shell环境          | 关机               |
 
 ## 变量管理
+
 # shell数组
+
 ## 数组介绍
+
 ## 默认数组
+
 ## 关联数字
 
 # shell五大运算符
+
 ```sh
 1.	基本语法
  	$[运算式]
@@ -966,16 +968,20 @@ a b c
 ```
 
 ## 赋值
+
 ## 数学
+
 ## 比较
+
 ## 关系
+
 ## 文件类型比较
 
 # 条件控制
 
 1. 基本语法
-    a. test condition
-    b. condition（注意condition前后要有空格）
+   a. test condition
+   b. condition（注意condition前后要有空格）
 
 ```sh
 [root@Centos8 shells]# a=hello
@@ -999,18 +1005,19 @@ hello
 ```
 
 2. 常用判断条件
-    a.	两个整数之间比较
-        -eq等于（equal) -ne不等于（not equal)
-        -lt小于（less than) -le小于等于（less equal）
-        -gt大于（greater than) -ge大于等于（greater equal)
-    b.	文件权限的判断
-        -r 读的权限（read）
-        -w 写的权限（write）
-        -x 执行的权限（execute）
-    c.	文件类型的判断
-        -e 文件存在（existense）
-        -f 文件存在并且是一个常规的文件（file）
-        -d 文件存在并且是一个目录（directory）
+   a.	两个整数之间比较
+   -eq等于（equal) -ne不等于（not equal)
+   -lt小于（less than) -le小于等于（less equal）
+   -gt大于（greater than) -ge大于等于（greater equal)
+   b.	文件权限的判断
+   -r 读的权限（read）
+   -w 写的权限（write）
+   -x 执行的权限（execute）
+   c.	文件类型的判断
+   -e 文件存在（existense）
+   -f 文件存在并且是一个常规的文件（file）
+   -d 文件存在并且是一个目录（directory）
+
 ```sh
 [root@Centos8 shells]# [ 4 -eq 3 ]
 [root@Centos8 shells]# echo $?
@@ -1063,8 +1070,11 @@ hello
 159 > 20
 [root@Centos8 shells]# 
 ```
+
 # 流程控制
+
 ## if
+
 if
 
 ```sh
@@ -1187,6 +1197,7 @@ fi
 ### if高级语法
 
 ## case
+
 ```sh
 1.	基本语法
 case $变量值 in
@@ -1261,7 +1272,7 @@ esac
 
 ### for循环介绍
 
->基本语法
+> 基本语法
 
 ```sh
 # 在双小括号的情况下，里面可以直接用数学上的符号，
@@ -1273,6 +1284,7 @@ done
 ```
 
 * 实例1
+
 ```sh
 [root@Centos8 shells]# ./for01.sh 100
 5050
@@ -1290,8 +1302,8 @@ echo $sum
 [root@Centos8 shells]# 
 ```
 
-
 * 实例2
+
 ```sh
 [root@Centos8 shells]# vim for02.sh
 [root@Centos8 shells]# ./for02.sh 
@@ -1315,7 +1327,7 @@ done
 
 ### $* $@区别
 
->$* $@都表示传递给函数或脚本的所有参数。在不加引号的情况下，输出的参数都是一样的$1,$2,,,。加了引号之后$*表示所有的参数输出为一个整体，$@还是依旧依次输出$1,$2,,,
+> $* $@都表示传递给函数或脚本的所有参数。在不加引号的情况下，输出的参数都是一样的$1,$2,,,。加了引号之后$*表示所有的参数输出为一个整体，$@还是依旧依次输出$1,$2,,,
 
 ```sh
 [root@Centos8 shells]# chmod 744 for03.sh 
@@ -1403,17 +1415,29 @@ echo $sum
 ```
 
 ### while实战
+
 ## util
+
 ### util介绍
+
 ### util语法
+
 ### case介绍
+
 ### case语法
+
 ### 特殊变量
+
 # shell函数
+
 ## 函数介绍
+
 ## 函数语法
+
 ## 函数应用
+
 ## 系统函数
+
 ### date
 
 ```sh
@@ -1429,7 +1453,7 @@ echo "$filename"
 
 ### basename
 
->获取当前文件名，针对最后一个”/“之后的内容
+> 获取当前文件名，针对最后一个”/“之后的内容
 
 ```sh
 [root@Centos8 shells]# basename /root/shells/parmeter.sh 
@@ -1485,7 +1509,7 @@ echo "$@"
 
 ### diranaem
 
->获取当前路径，针对最后一个”/“之前的内容
+> 获取当前路径，针对最后一个”/“之前的内容
 
 ```sh
 [root@Centos8 shells]# dirname /root/shells/parmeter.sh 
@@ -1585,6 +1609,7 @@ echo "和："$sum
 ```
 
 # 正则表达式
+
 ## 正则表达式介绍
 
 常规匹配
@@ -1670,14 +1695,19 @@ tar -czf $DEST $DIR_PATH/$DIR_NAME
 # + 一次或多次
 # ？ 零次或一次
 ```
+
 ## POSIX字符
+
 # shell对文件的操作
+
 ## shell对文件操作介绍
+
 ## sed编辑器
 
     sed编辑器被称作流编辑器，与普通的交互式文本编辑器截然不同。在交互式文本编辑器（比如vim）中，可以用键盘命令交互式的插入、删除或替换文本数据。流编辑器则是根据事先设计好的一组规则编辑数据流。
 
->sed命令的格式如下
+> sed命令的格式如下
+
 ```sh
 sed [-hnV][-e<script>][-f<script文件>][文本文件]
 ```
@@ -1691,30 +1721,32 @@ sed [-hnV][-e<script>][-f<script文件>][文本文件]
 * -V或--version 显示版本信息。
 
 ### 动作说明
-    
+
 * a ：新增， a 的后面可以接字串，而这些字串会在新的一行出现(目前的下一行)～
 * c ：取代， c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行！
 * d ：删除，因为是删除啊，所以 d 后面通常不接任何东东；
 * i ：插入， i 的后面可以接字串，而这些字串会在新的一行出现(目前的上一行)；
 * p ：打印，亦即将某个选择的数据印出。通常 p 会与参数 sed -n 一起运行～
 * s ：取代，可以直接进行取代的工作哩！通常这个 s 的动作可以搭配正则表达式！例如 1,20s/old/new/g 就是啦！
-    
-  
+
 1. s 取代
 
->使用替换（s）命令，用斜线间指定的第二个字符串“AA”替换第一个字符串“world”
+> 使用替换（s）命令，用斜线间指定的第二个字符串“AA”替换第一个字符串“world”
+
 ```sh
 [root@cfff3ad6bb5a shells]# pwd
 /home/shells
-[root@cfff3ad6bb5a shells]# echo "hello world"                    
+[root@cfff3ad6bb5a shells]# echo "hello world"                  
 hello world
 [root@cfff3ad6bb5a shells]# echo "hello world" | sed 's/world/AA/'
 hello AA
 [root@cfff3ad6bb5a shells]# 
 ```
 
->使用替换（s）命令，同时对数据做多处修改
+> 使用替换（s）命令，同时对数据做多处修改
+
 * 注意：sed编辑器不会修改文本文件的数据，他只是将修改后的数据发送到STDOUT，如果查看原来的文件还是原先内容
+
 ```sh
 [root@cfff3ad6bb5a shells]# cat data1.txt 
 The quick brown fox jumps over the lazy dog
@@ -1736,7 +1768,8 @@ The quick brown fox jumps over the lazy dog
 
 2. 以行为单位的新增
 
->使用新增（a）命令在指定行新增数据，文件的第2行后添加一行，并将结果输出到标准输出
+> 使用新增（a）命令在指定行新增数据，文件的第2行后添加一行，并将结果输出到标准输出
+
 ```sh
 [root@cfff3ad6bb5a shells]# sed -e 2a\test-add-new-line data1.txt 
 The quick brown fox jumps over the lazy dog
@@ -1749,7 +1782,8 @@ The quick brown fox jumps over the lazy dog
 
 3. 以行为单位的删除
 
->使用删除（d）命令删除指定行；将2至4行删除；将第2行删除
+> 使用删除（d）命令删除指定行；将2至4行删除；将第2行删除
+
 ```sh
 [root@cfff3ad6bb5a shells]# nl data1.txt 
      1  The quick brown fox jumps over the lazy dog
@@ -1767,7 +1801,8 @@ The quick brown fox jumps over the lazy dog
 
 4. 以行为单位的替换与显示
 
->将2-4行替换为NO 2-4 number
+> 将2-4行替换为NO 2-4 number
+
 ```sh
 [root@cfff3ad6bb5a shells]# nl data1.txt 
      1  The quick brown fox jumps over the lazy dog
@@ -1781,7 +1816,8 @@ NO 2-4 number
 
 ```
 
->仅列出文件第2-4行
+> 仅列出文件第2-4行
+
 ```sh
 [root@cfff3ad6bb5a shells]# nl data1.txt | sed -n '2,4p'
      2  The quick brown fox jumps over the lazy dog
@@ -1791,33 +1827,34 @@ NO 2-4 number
 ```
 
 ```sh
+
 ```
 
 ```sh
+
 ```
 
-
-
 ## sed小技巧
+
 # shell对输出流的处理
+
 ## cut
 
 在文件中负责剪切数据的
 
 1. 基本用法
 
- 	cut [选项参数] filename
- 	说明：默认分隔符是制表符
-
+   cut [选项参数] filename
+   说明：默认分隔符是制表符
 2. 选项参数
 
-|选项参数|功能|
-|---|---|
-|-f|列号，提取第几列|
-|-d|分隔符，按照指定分隔符分割列，默认是制表符”\t“|
-|-c|按字符进行分割，后加n表示去第几列，比如-c 2|
+| 选项参数 | 功能                                             |
+| -------- | ------------------------------------------------ |
+| -f       | 列号，提取第几列                                 |
+| -d       | 分隔符，按照指定分隔符分割列，默认是制表符”\t“ |
+| -c       | 按字符进行分割，后加n表示去第几列，比如-c 2      |
 
-3.	实例
+3. 实例
 
 ```sh
 # 数据准备
@@ -1869,7 +1906,7 @@ admin::/home/admin:/bin/bash
 
 ## awk
 
->强大的文本分析工具，吧文件逐行读入，以空格为默认分隔符将每行切片，切开的部分再进行处理，awk本质上就是gawk
+> 强大的文本分析工具，吧文件逐行读入，以空格为默认分隔符将每行切片，切开的部分再进行处理，awk本质上就是gawk
 
 ```sh
 [root@Centos8 shells]# which awk
@@ -1888,9 +1925,8 @@ lrwxrwxrwx. 1 root root          4 5月  11 2019 awk -> gawk
 
 2. 选项参数
 
- 	-F 指定输入文件分隔符
- 	-v 赋值一个用户定义变量
-
+   -F 指定输入文件分隔符
+   -v 赋值一个用户定义变量
 3. 实例
 
 ```sh
@@ -1959,9 +1995,10 @@ End of File!
 
 4. awk内置变量
 
- 	FILENAME 文件名
- 	NR 已读的纪录数（行号）
- 	NF 浏览记录的域的个数（切割后，列的个数）
+   FILENAME 文件名
+   NR 已读的纪录数（行号）
+   NF 浏览记录的域的个数（切割后，列的个数）
+
 ```sh
 [root@Centos8 shells]# awk -F ":" '{print "FileName: "FILENAME " 行号："NR " 列数："NF}' passwd
 FileName: passwd 行号：1 列数：7
@@ -2018,10 +2055,11 @@ FileName: passwd 行号：30 列数：7
 # shell案例
 
 ## 归档文件
+
 > 实际生产中往往需要对重要数据进行归档备份
-需求：实现一个每天对指定目录归档备份的脚本输入一个目录名称，末尾不带/，将目录下的所有文件按天归档，并将归档日期附加在归档文件名上，放在/root/archive下
-归档命令 tar
-后面加上-c表示归档，加上-z表示压缩，得到的文件名后缀为.tar.gz
+> 需求：实现一个每天对指定目录归档备份的脚本输入一个目录名称，末尾不带/，将目录下的所有文件按天归档，并将归档日期附加在归档文件名上，放在/root/archive下
+> 归档命令 tar
+> 后面加上-c表示归档，加上-z表示压缩，得到的文件名后缀为.tar.gz
 
 ```sh
 # 创建定时任务
@@ -2085,6 +2123,7 @@ exit
 ```
 
 ## 删除前一天的归档文件
+
 ```sh
 #!/bin/bash
 
@@ -2138,9 +2177,8 @@ find $1 -type f -name "*$BEF_DATE*" -delete
 
 ## 发送消息
 
-
 > 利用Linux的mesg和write向其他用户发送消息
-需求：实现向某个用户快速发送消息，输入用户名作为第一个参数，后面直接跟要发送的消息。脚本需要检测用户是否登录在系统中，是否打开消息功能，以及当前发送消息是否为空
+> 需求：实现向某个用户快速发送消息，输入用户名作为第一个参数，后面直接跟要发送的消息。脚本需要检测用户是否登录在系统中，是否打开消息功能，以及当前发送消息是否为空
 
 ```sh
 # 确认mesg是否开启
@@ -2274,7 +2312,7 @@ do
 	sleep 1
 	pwd
 	echo $(date +'%Y-%m-%d %H:%M:%S')
-	
+
 done
 
 echo end: `date`
@@ -2314,18 +2352,19 @@ sudo cp ./a-script-demo.sh ./test$1.sh
 ```
 
 ## 从源文件夹复制到目录文件中
+
 ```sh
 #!/bin/bash
 cp -r $1 $2
 ```
 
 ## 删除指定文件夹下同一后缀的所有文件
+
 ```sh
 #!/bin/bash
 # delete all file like *.out from /data/docker/vscode-server/C/Posix
 find $1 -name/ "*.out" -delete
 ```
-
 
 # Linux常用命令之文件处理
 
@@ -2366,12 +2405,12 @@ find $1 -name/ "*.out" -delete
 ## 测试远程主机的流动性
 
 + ping
-    + -c：ping的次数
-    + -i：每次ping的时间间隔
+  + -c：ping的次数
+  + -i：每次ping的时间间隔
 
 ## 打印linux网络网络的状态信息
 
 + netstat
-    + -t：列出所有tcp
-    + -n：以数字形式显示地址和端口
-    + -p：显示进程的pid和名字
+  + -t：列出所有tcp
+  + -n：以数字形式显示地址和端口
+  + -p：显示进程的pid和名字
