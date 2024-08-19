@@ -6,7 +6,7 @@
 #include <sys/wait.h>
 #include <string.h>
 
-void errno_abort(const char *message)
+static void errno_abort(const char *message)
 {
     perror(message);
     exit(EXIT_FAILURE);
@@ -15,7 +15,7 @@ void errno_abort(const char *message)
 int main(int argc, char *argv[])
 {
     int status;
-    pid_t child_pid;
+    pid_t pid;
     int seconds = 0;
     char line[128];
     char message[64];
@@ -43,13 +43,13 @@ int main(int argc, char *argv[])
         }
         else
         {
-            child_pid = fork();
-            if (child_pid == (pid_t)-1)
+            pid = fork();
+            if (pid == (pid_t)-1)
             {
                 errno_abort("Fork");
             }
 
-            if (child_pid == (pid_t)0)
+            if (pid == (pid_t)0)
             {
                 sleep(seconds);
                 printf("Sleep %d seconds, Alarm: %s\n", seconds, message);
@@ -59,12 +59,12 @@ int main(int argc, char *argv[])
             {
                 do
                 {
-                    child_pid = waitpid((pid_t)-1, &status, WNOHANG);
-                    if (child_pid == (pid_t)-1)
+                    pid = waitpid((pid_t)-1, &status, WNOHANG);
+                    if (pid == (pid_t)-1)
                     {
                         errno_abort("Wait for child pid");
                     }
-                } while (child_pid > 0);
+                } while (pid > 0);
             }
         }
     }
