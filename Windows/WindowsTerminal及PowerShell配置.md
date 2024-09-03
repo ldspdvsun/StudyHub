@@ -109,12 +109,14 @@ vi ~/.ssh/authorized_keys
 ## 美化远程主机终端
 
 ### 安装Oh My Posh
+
 ```sh
 sudo wget https://ghproxy.net/https://github.com/JanDeDobbeleer/oh-my-posh/releases/download/v23.2.0/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
 sudo chmod +x /usr/local/bin/oh-my-posh
 ```
 
 ### 安装主题
+
 ```sh
 mkdir ~/.poshthemes
 wget https://kkgithub.com/JanDeDobbeleer/oh-my-posh/releases/download/v23.2.0/themes.zip -O ~/.poshthemes/themes.zip
@@ -126,17 +128,20 @@ rm ~/.poshthemes/themes.zip
 ### 应用Oh My Posh
 
 1. 在远程主机运行如下命令确定shell的类型
+
 ```sh
 $ oh-my-posh get shell
 bash
 ```
 
 2. 参考官方文档 https://ohmyposh.dev/docs/installation/prompt ，针对不同shell类型有不同的应用方式。比如比较常见的bash，通常是在~/.bashrc文件的最下面添加一行
+
 ```sh
 eval "$(oh-my-posh init bash --config ~/.poshthemes/jandedobbeleer.omp.json)"
 ```
 
 3. 保存后重启ssh或者运行下列命令
+
 ```sh
 exec bash
 ```
